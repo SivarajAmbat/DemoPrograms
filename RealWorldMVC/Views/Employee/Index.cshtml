@@ -1,0 +1,30 @@
+﻿
+@*@model RealWorldMVC.Models.Employee*@
+
+@{
+  
+    var employee = (RealWorldMVC.Models.Employee)TempData["employee"];
+    
+}
+
+<h2>Employee Details:</h2>
+
+@*This section displays employee details*@
+
+
+<h3>ID: @employee.ID </h3>
+<h3>FirstName: @employee.FirstName</h3>
+<h3>LastName: @employee.LastName</h3>
+
+<img src="/Content/@(employee.FirstName).jpg" alt="Photo" />
+
+<br />
+
+@if (@employee.ID != 1)
+{
+    @: [No Data]
+}
+else
+{
+    <text> Employee is available </text>
+}
