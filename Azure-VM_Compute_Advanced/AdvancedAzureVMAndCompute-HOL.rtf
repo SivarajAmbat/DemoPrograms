@@ -1,0 +1,202 @@
+{\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\froman\fcharset0 Times New Roman;}{\f1\froman Times New Roman;}{\f2\fswiss\fcharset0 Courier New;}{\f3\fnil\fcharset0 Calibri;}{\f4\fnil\fcharset2 Symbol;}}
+{\colortbl ;\red0\green0\blue255;}
+{\*\generator Riched20 10.0.14393}\viewkind4\uc1 
+\pard\sb100\sa100\f0\fs24 Advanced Azure Virtual Machine and Compute \par
+
+\pard\keepn\sb100\sa100\kerning36\b\fs48 Advanced Virtual Machines & Compute\par
+
+\pard\sb100\sa100\kerning0\b0\i\fs24 Advanced deployment options for Azure Virtual Machines\i0\par
+
+\pard\keepn\sb100\sa100\kerning36\b\fs48 Overview\par
+
+\pard\sb100\sa100\kerning0\b0\fs24 One of the first and most popular services offered in Azure is \b Virtual Machines\b0 , an IaaS solution. Azure Virtual Machines (VM) is one of several types of on-demand, scalable computing resources that Azure offers. Typically, you choose a VM when you need more control over the computing environment than other choices offer.\par
+In this lab, advanced features will be explored for \b Virtual Machines.\b0  These features include the following:\par
+
+\pard{\pntext\f4\'B7\tab}{\*\pn\pnlvlblt\pnf4\pnindent360{\pntxtb\'B7}}\fi-360\li720\sb100\sa100 Scale Sets \par
+{\pntext\f4\'B7\tab}ARM Templates \par
+{\pntext\f4\'B7\tab}Managing a Linux VM using PowerShell\par
+
+\pard\sb100\sa100\b Capabilities or Components Used in this Story:\b0\line\b Azure:\b0  Azure Resource Manager Portal, Windows 2016 Datacenter Virtual Machine, Azure Virtual Networking, Scale Sets, ARM Templates and PowerShell with Linux\par
+\b Scenario 1 \f1\endash\f0  Reviewing Scale Sets\b0\par
+An Azure \b Virtual Machine Scale Set\b0  is an Azure compute resource you can use to deploy and manage a set of identical VMs. With all VMs configured the same, VM scale sets are designed to support true auto-scale \f1\endash\f0  no pre-provisioning of VMs is required \f1\endash\f0  making it easier to build large-scale services targeting resource-intensive compute, data, and containerized workloads.\par
+\b Sign in to the Azure portal\b0\par
+
+\pard 
+{\pntext\f0 1.\tab}{\*\pn\pnlvlbody\pnf0\pnindent360\pnstart1\pndec{\pntxta.}}
+\fi-360\li720\sb100\sa100 {{\field{\*\fldinst{HYPERLINK "https://portal.azure.com/"}}{\fldrslt{\ul\cf1\cf1\ul Click here to open the Azure portal}}}}\f0\fs24  and maximize the browser window\par
+{\pntext\f0 2.\tab}In the \b Email or phone\b0  field, enter \b user788517@cloudplatimmersionlabs.onmicrosoft.com\b0\par
+{\pntext\f0 3.\tab}Click \b Next\b0\par
+{\pntext\f0 4.\tab}In the \b Password\b0  field, enter \b I:ULlSvB]F!o\b0\par
+{\pntext\f0 5.\tab}Click \b Sign in\b0\par
+{\pntext\f0 6.\tab}You \i may\i0  encounter a popup entitled \b Stay signed in?\b0  with buttons for \b No\b0  and \b Yes\b0  - Choose \b No\b0\par
+{\pntext\f0 7.\tab}You \i may\i0  encounter a popup entitled \b Welcome to Microsoft Azure\b0  with buttons for \b Start Tour\b0  and \b Maybe Later\b0  - Choose \b Maybe Later\b0\par
+{\pntext\f0 8.\tab}Click \b Resource groups\b0  from the Favorites menu\par
+{\pntext\f0 9.\tab}Click on the \b rg788517\b0  resource group\par
+{\pntext\f0 10.\tab}From the list of resources in the \b Overview\b0  section, click on the Scale Set resource named \b vmsslab\b0\par
+{\pntext\f0 11.\tab}Under the \b Settings\b0  section, click on \b Scaling\b0\par
+{\pntext\f0 12.\tab}In the \b vmsslab - Scaling\b0  blade, make note of the number of instances, currently set to \b 2\b0\par
+{\pntext\f0 13.\tab}Also notice the AutoScaling rule that is defined below\par
+
+\pard 
+{\pntext\f0 14.\tab}{\*\pn\pnlvlbody\pnf0\pnindent0\pnstart1\pndec{\pntxta.}}
+\li1080\ri1080\sb100\sa100\b Note:\b0  When Autoscaling is enabled, you must specify Rules for the scale set to function. In this lab we have specified those options. The first \b Trigger\b0  is set to increase the instance count by 1 if the CPU reaches 80% for 5 min. The second \b Trigger\b0  is to decrease the number of instances based on CPU %. If the % is less than 50% then decrease by 1. The last Item is the \b Target number of instances\b0  This is set to minimum of 2 and maximum of 10. This means that you must have at least one VM running but cannot have more than 10 running.\par
+
+\pard 
+{\pntext\f0 15.\tab}{\*\pn\pnlvlbody\pnf0\pnindent360\pnstart1\pndec{\pntxta.}}
+\fi-360\li720\sb100\sa100 Under the \b Settings\b0  section, click on \b Instances\b0\par
+{\pntext\f0 16.\tab}In the \b vmsslab Instances\b0  blade, you can see the two VM instances that are currently provisioned and active\par
+{\pntext\f0 17.\tab}Return to the \b Scaling\b0  blade and then select the \b Scale to a specific instance count\b0  option\par
+{\pntext\f0 18.\tab}In the Instance count field, enter 5 and then click \b Save\b0  at the top of the blade\par
+{\pntext\f0 19.\tab}Return to the \b Instances\b0  blade and notice that there are new instances being provisioned to make the total number of 5\par
+
+\pard 
+{\pntext\f0 20.\tab}{\*\pn\pnlvlbody\pnf0\pnindent0\pnstart1\pndec{\pntxta.}}
+\li1080\ri1080\sb100\sa100\b Note:\b0  You should wait a few minutes before going to the Instances Blade. If you are not seeing the impact immediately, alternate between Scaling and Instances until you see new vm's being provisioned.\par
+{\pntext\f0 21.\tab}\b Note:\b0  You may see more than 5 instances, but it will soon 'settle' into 5 instances\par
+
+\pard\li360\ri360\sb100\sa100 This completes this scenario. Click on \b Next\b0  to go to the next scenario\par
+
+\pard\keepn\sb100\sa100\b\fs36 Scenario 2 \f1\endash\f0  Linux VM Management\par
+\kerning36\fs48 In this lab, you will setup PowerShell on an Ubuntu server. PowerShell is now open source and is available for Linux and Mac OS X.\par
+
+\pard 
+{\pntext\f0 1.\tab}{\*\pn\pnlvlbody\pnf0\pnindent360\pnstart1\pndec{\pntxta.}}
+\fi-360\li720\sb100\sa100\kerning0\b0\fs24 From the Azure portal, click on the \b Virtual machines\b0  in the favorites menu\par
+{\pntext\f0 2.\tab}On the \b Virtual Machines\b0  blade, click on the \b unixhost\b0  that has been provided\par
+{\pntext\f0 3.\tab}On the \b unixhost\b0  blade, in the Settings section, click on \b Networking\b0  and make note of the \b private IP address\b0\par
+
+\pard 
+{\pntext\f0 4.\tab}{\*\pn\pnlvlbody\pnf0\pnindent0\pnstart1\pndec{\pntxta.}}
+\li1080\ri1080\sb100\sa100\b Note:\b0  All Azure VM's have at least one network interface. Each of those network interface(s) will be bound to a private IP address in the Azure Virtual Network. Additionally, and optionally, you may bind a network interface to a public IP address.\par
+
+\pard 
+{\pntext\f0 5.\tab}{\*\pn\pnlvlbody\pnf0\pnindent360\pnstart1\pndec{\pntxta.}}
+\fi-360\li720\sb100\sa100 Open the \b Git Bash\b0  application from the Desktop.\par
+{\pntext\f0 6.\tab}In the bash command prompt window, type \b ssh contosoadmin@10.0.0.5\b0  (you may need to adjust the IP address) and press \b Enter\b0\par
+{\pntext\f0 7.\tab}You will be asked if you want to continue with the connection, type \b yes\b0  and press \b Enter.\b0\par
+{\pntext\f0 8.\tab}You will be prompted to type the user's password, \b Imm3rs!on999\b0  and press \b Enter.\b0\par
+
+\pard 
+{\pntext\f0 9.\tab}{\*\pn\pnlvlbody\pnf0\pnindent0\pnstart1\pndec{\pntxta.}}
+\li1080\ri1080\sb100\sa100\b Note:\b0  The next two steps, specifically the sudo commands, need to by typed manually, not using cut/paste.\par
+
+\pard 
+{\pntext\f0 10.\tab}{\*\pn\pnlvlbody\pnf0\pnindent360\pnstart1\pndec{\pntxta.}}
+\fi-360\li720\sb100\sa100 At the \b $\b0  prompt, type \b sudo passwd \f1\endash\f0 u root\b0  and press \b Enter.\b0\par
+
+\pard 
+{\pntext\f0 11.\tab}{\*\pn\pnlvlbody\pnf0\pnindent0\pnstart1\pndec{\pntxta.}}
+\li1080\ri1080\sb100\sa100\b Note:\b0  By default, Ubuntu disables the root account. This command will enable the root account so that PowerShell can be installed on the server.\par
+
+\pard 
+{\pntext\f0 12.\tab}{\*\pn\pnlvlbody\pnf0\pnindent360\pnstart1\pndec{\pntxta.}}
+\fi-360\li720\sb100\sa100 At the \b $\b0  prompt, type \b sudo \f1\endash\f0 s\b0  and press \b Enter\b0  to drop to the root account for full access\par
+
+\pard 
+{\pntext\f0 13.\tab}{\*\pn\pnlvlbody\pnf0\pnindent0\pnstart1\pndec{\pntxta.}}
+\li1080\ri1080\sb100\sa100\b Note:\b0  This next step will download and install PowerShell for Linux onto the Linux server.\par
+
+\pard 
+{\pntext\f0 14.\tab}{\*\pn\pnlvlbody\pnf0\pnindent360\pnstart1\pndec{\pntxta.}}
+\fi-360\li720\sb100\sa100 At the \b #\b0  prompt, copy and paste the following command and press \b Enter.\b0\par
+
+\pard 
+{\pntext\f0 15.\tab}{\*\pn\pnlvlbody\pnf0\pnindent0\pnstart1\pndec{\pntxta.}}
+\li720\sb100\sa100 Copy code \par
+
+\pard 
+{\pntext\f2 16.\tab}{\*\pn\pnlvlbody\pnf2\pnindent0\pnstart1\pndec{\pntxta.}}
+\li720\tx959\tx1918\tx2877\tx3836\tx4795\tx5754\tx6713\tx7672\tx8631\f2\fs20 bash <(curl -s {{\field{\*\fldinst{HYPERLINK https://raw.githubusercontent.com/PowerShell/PowerShell/v6.0.0-alpha.15/tools/download.sh }}{\fldrslt{https://raw.githubusercontent.com/PowerShell/PowerShell/v6.0.0-alpha.15/tools/download.sh\ul0\cf0}}}}\f2\fs20 )\par
+{\pntext\f2 17.\tab}\par
+
+\pard 
+{\pntext\f0 18.\tab}{\*\pn\pnlvlbody\pnf0\pnindent360\pnstart1\pndec{\pntxta.}}
+\fi-360\li720\sb100\sa100\f0\fs24 You will be asked to confirm that you want to continue to use \b xxx\b0  amount of space. Type \b Y\b0  and press \b Enter.\b0  (Note: must be capital Y)\par
+{\pntext\f0 19.\tab}After PowerShell installs successfully, you will see the \b ~#\b0  prompt\par
+
+\pard 
+{\pntext\f0 20.\tab}{\*\pn\pnlvlbody\pnf0\pnindent0\pnstart1\pndec{\pntxta.}}
+\li1080\ri1080\sb100\sa100\b Note:\b0  In these next few steps, we are first building a powershell script and then executing the script-file we built. The cat command accepts input from the console and pipes what we have typed...into the script file.\par
+
+\pard 
+{\pntext\f0 21.\tab}{\*\pn\pnlvlbody\pnf0\pnindent360\pnstart1\pndec{\pntxta.}}
+\fi-360\li720\sb100\sa100 At the \b ~#\b0  prompt, type \b cat > shutdown.ps1\b0  and press \b Enter.\b0\par
+{\pntext\f0 22.\tab}At the blinking cursor,type \b shutdown now\b0  and press \b Enter.\b0\par
+{\pntext\f0 23.\tab}Press \b Ctrl + D\b0  to save the PowerShell script\par
+
+\pard 
+{\pntext\f0 24.\tab}{\*\pn\pnlvlbody\pnf0\pnindent0\pnstart1\pndec{\pntxta.}}
+\li1080\ri1080\sb100\sa100\b Note:\b0  Script file is now built!\par
+
+\pard 
+{\pntext\f0 25.\tab}{\*\pn\pnlvlbody\pnf0\pnindent360\pnstart1\pndec{\pntxta.}}
+\fi-360\li720\sb100\sa100 At the \b #\b0  command prompt, type \b powershell\b0  and press enter to start the PowerShell module on the Linux VM\par
+{\pntext\f0 26.\tab}At the PowerShell \b /home/username\b0  prompt, type \b ./shutdown.ps1\b0  and press \b Enter\b0  to execute the PowerShell script to \b shut down\b0  the Linux Server. You will see the \b connection to the server closed by the remote host\b0\par
+{\pntext\f0 27.\tab}Close the Git-Bash window\par
+
+\pard 
+{\pntext\f0 28.\tab}{\*\pn\pnlvlbody\pnf0\pnindent0\pnstart1\pndec{\pntxta.}}
+\li1080\ri1080\sb100\sa100\b Note:\b0  Shutting down a VM from inside the VM is not the same as stopping the VM from the Azure Portal. If you stop the VM from the Azure portal control, you stop incurring charges.\par
+
+\pard\li360\ri360\sb100\sa100 This completes this scenario. Click on \b Next\b0  to go to the next scenario\par
+
+\pard\keepn\sb100\sa100\b\fs36 Scenario 3 \f1\endash\f0  ARM Template Review\par
+\kerning36\fs48 In this scenario, you will review the code that makes up an Azure Resource Manager template and upload a template to your library for future use.\par
+
+\pard 
+{\pntext\f0 1.\tab}{\*\pn\pnlvlbody\pnf0\pnindent360\pnstart1\pndec{\pntxta.}}
+\fi-360\li720\sb100\sa100\kerning0\b0\fs24 Return to the Azure Portal, then, in the \b More services\b0  shortcut menu, click \b Resource Groups.\b0\par
+
+\pard 
+{\pntext\f0 2.\tab}{\*\pn\pnlvlbody\pnf0\pnindent0\pnstart1\pndec{\pntxta.}}
+\li1080\ri1080\sb100\sa100\b Note:\b0  Depending on the size of the shortcut window, you might see \b More services >\b0  or simply a \b >\b0 .\par
+
+\pard 
+{\pntext\f0 3.\tab}{\*\pn\pnlvlbody\pnf0\pnindent360\pnstart1\pndec{\pntxta.}}
+\fi-360\li720\sb100\sa100 On the \b Resource Group\b0  blade, click on the \b rg788517\b0  resource group\par
+{\pntext\f0 4.\tab}On the \b Settings\b0  section, click \b Automation Script\b0  in the settings section.\par
+{\pntext\f0 5.\tab}On the \b rg788517 - Automation Script\b0  blade, click the \b Download\b0  button at the top of the blade. This will start a download of the template in a \b .zip\b0  file\par
+{\pntext\f0 6.\tab}Click \b Save\b0  in the dialog box at the bottom of the browser\par
+{\pntext\f0 7.\tab}Once the save is complete, click \b Open\b0  in the dialog box at the bottom of the browser\par
+{\pntext\f0 8.\tab}Go back to downloads in windows explorer, right click on the file and choose \b extract all\b0  and then click \b extract\b0\par
+{\pntext\f0 9.\tab}In the \b Explorer\b0  window you should find several files. \b Right-click\b0  the \b deploy.ps1\b0  file (file extension might not be displayed) and click \b Edit\b0  in the submenu. The \b deploy.ps1\b0  file should open in PowerShell ISE\par
+{\pntext\f0 10.\tab}Scroll down to the \b param\b0  section in the file. In this section, take note of the different parameters specified. Note the \b $templateFilePath = "template.json\b0 " path. This is the path in which the PowerShell script will get the template to deploy the ARM resources\par
+{\pntext\f0 11.\tab}Scroll down to the \b # sign in\b0  line in the file. This is where PowerShell calls for the sign-in credentials to the Azure Portal\par
+{\pntext\f0 12.\tab}The \b # select subscription\b0  section is where the script will ask for the subscription information to use for this deployment\par
+{\pntext\f0 13.\tab}The rest of the script will \b create\b0  a resource group based on input from the user and call the \b template.json\b0  file\par
+{\pntext\f0 14.\tab}In the \b Explorer\b0  window where the template files are located, drag the \b template.json\b0  file onto the PowerShell ISE application to view its contents\par
+{\pntext\f0 15.\tab}The first section of code in the \b .json\b0  file is the \b parameters\b0  section. In this section, the default values are specified for when the template code runs. It will use these values for the deployments\par
+{\pntext\f0 16.\tab}In the PowerShell ISE application, click \b Edit\b0  and then click \b Find in Script.\b0\par
+{\pntext\f0 17.\tab}In the \b Find\b0  dialog box, type the word \b offer\b0  and click \b Find Next\b0 . This will highlight the code where it tells the ARM environment the name of the Gallery image to use\par
+{\pntext\f0 18.\tab}The line below \b offer\b0  is \b SKU,\b0  which defines the version of the Gallery image to deploy\par
+{\pntext\f0 19.\tab}After you are done reviewing the \b .json\b0  file, you can \b close\b0  the ISE application\par
+{\pntext\f0 20.\tab}Go back to the browser, the \b rg788517 - Automation Script\b0  blade should still be open. Click the \b Add to Library\b0  button at the top of the blade\par
+{\pntext\f0 21.\tab}On the \b Save Template\b0  blade, type \b HelloWorld\b0  in the \b name\b0  field and enter a description in the \b description\b0\par
+{\pntext\f0 22.\tab}Click the \b Save\b0  button.\par
+{\pntext\f0 23.\tab}In the extreme upper left of the browser, click on the \b Microsoft Azure\b0  text/button to clear the open blades and then, scroll to the bottom and click \b more services>.\b0\par
+{\pntext\f0 24.\tab}In the filter box, type \b Template\b0 .\par
+{\pntext\f0 25.\tab}Click the \b Templates\b0  option from the results.\par
+{\pntext\f0 26.\tab}On the \b Templates\b0  blade, click the \b name\b0  of the template you saved\par
+{\pntext\f0 27.\tab}Close the \b View Template\b0  blade\par
+{\pntext\f0 28.\tab}On the \b [name of the template]\b0  blade, click the \b Deploy\b0  button at the top of the blade\par
+{\pntext\f0 29.\tab}On the \b Custom Deployment\b0  blade for the template, review the options. Note that in the \b Settings\b0  section, the options from the template file in the parameters section are selected\par
+
+\pard 
+{\pntext\f0 30.\tab}{\*\pn\pnlvlbody\pnf0\pnindent0\pnstart1\pndec{\pntxta.}}
+\li1080\ri1080\sb100\sa100\b Note:\b0  This process allows you to quickly deploy/re-deploy a standard setup for rinse-and-repeat functionality. In this demo, we are NOT going to click on the \b Purchase\b0  button which begins deployment of the template.\par
+
+\pard\li360\ri360\sb100\sa100 Please click on the \b Conclusion\b0  button to finish the lab\par
+
+\pard\keepn\sb100\sa100\kerning36\b\fs48 Advanced Virtual Machines & Compute Conclusion:\par
+
+\pard\sb100\sa100\kerning0\b0\fs24 The Advanced Virtual Machines & Compute lab has now been completed. Through the completion of this lab, the following elements have been reviewed:\par
+
+\pard{\pntext\f4\'B7\tab}{\*\pn\pnlvlblt\pnf4\pnindent360{\pntxtb\'B7}}\fi-360\li720\sb100\sa100 Creating Scale Sets \par
+{\pntext\f4\'B7\tab}Linux VM Management with PowerShell \par
+{\pntext\f4\'B7\tab}ARM Templates\par
+
+\pard\sb100\sa100 With the completion of this lab, an IT professional should be able to deploy advanced features of a virtual machine. Virtual Machine Scale Sets are a way to deploy and manage a set of identical VMs to dynamically provide more resources to be used by a pool of virtual machines. ARM templates were also reviewed as part of this lab. ARM Templates are a key feature of the Azure platform because they enable rapid "rinse-and-repeat" VM deployments in Azure. The last area of focus in this lab was managing a Linux server using PowerShell. PowerShell is a critical tool for managing resources in Azure. Microsoft has embraced third-party operating systems by adding PowerShell functionality for Linux VMs in Azure.\par
+
+\pard\sa200\sl276\slmult1\f3\fs22\lang9\par
+}
+ 
