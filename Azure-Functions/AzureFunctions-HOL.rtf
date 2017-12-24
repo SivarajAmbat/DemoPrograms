@@ -1,0 +1,400 @@
+{\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\froman\fcharset0 Times New Roman;}{\f1\fnil\fcharset0 Calibri;}{\f2\fswiss\fcharset0 Courier New;}{\f3\fnil\fcharset0 Consolas;}{\f4\fnil\fcharset2 Symbol;}}
+{\colortbl ;\red0\green0\blue255;}
+{\*\generator Riched20 10.0.16299}\viewkind4\uc1 
+\pard\sb100\sa100\f0\fs24 Building an Azure Function within the Azure Interface and a Logic App in Visual Studio \par
+With Azure functions developers can focus on building great apps without the worry of provisioning and maintaining infrastructure to support those apps. Developers can use almost any language they are comfortable with including C#, JavaScript, Python, and PowerShell to build Functions. It is also easy to capitalize on many other Azure and external services such as Cosmos DB, Azure Storage, SendGrid and others.\par
+Using Azure Logic Apps, organizations can take advantage of powerful yet simple to implement workflows for the processing of data across multiple cloud services.\par
+\b The Wingtip Toys Story:\b0\par
+Wingtip Toys is a small widget manufacturer. They have enjoyed moderate success since their founding and typically process a few orders a day for various products.\par
+Recently, Wingtip produced and published a video for its latest widget to social media and the video has gone viral. This has caused a massive influx of orders each day. This flood of new orders has quickly overwhelmed the existing on-premises hardware used for order processing from the Wingtip website.\par
+Wingtip has called in a cloud consultant, Nestor Wilke, to see if there is a quick and inexpensive way to keep up with the large number of daily orders with minimum developer time, expertise or expense, and in a way that can easily scale back down as orders subside or scale up if other products gain popularity.\par
+The consultant has recommended, and can assist with implementing, Azure Functions and Azure Logic Apps as a way to deal with the new volume.\par
+In this lab, you will play the part of Nestor and implement the required solution for Wingtip Toys.\par
+
+\pard\sa200\sl276\slmult1\f1\fs22\lang9\par
+\par
+
+\pard\keepn\sb100\sa100\kerning36\b\f0\fs48\lang1033 Scenario 1: Create a Function App\par
+
+\pard\sb100\sa100\kerning0\b0\fs24 In this first scenario, you will build out an Azure Function App which will host an Azure Function to which new orders will be sent from the existing web server for processing.\par
+
+\pard\li360\ri360\sb100\sa100 Note: For this lab we have pre-configured a number of items including Visual Studio 2017.\par
+
+\pard 
+{\pntext\f0 1.\tab}{\*\pn\pnlvlbody\pnf0\pnindent360\pnstart1\pndec{\pntxta.}}
+\fi-360\li720\sb100\sa100 On the taskbar, click the \b Microsoft Edge\b0  browser icon.\par
+{\pntext\f0 2.\tab}Maximize the browser window, if necessary.\par
+{\pntext\f0 3.\tab}In the address bar, type \b portal.azure.com\b0  then press \b Enter\b0 .\par
+{\pntext\f0 4.\tab}In the \b Email\b0  field, type \b user559748@cloudplatimmersionlabs.onmicrosoft.com\b0\par
+{\pntext\f0 5.\tab}In the \b Password\b0  field, type the password \b Li$@KZOZdkz?\b0\par
+{\pntext\f0 6.\tab}Click \b Sign in\b0 .\par
+{\pntext\f0 7.\tab}In the left hand navigation, click on \b + New\b0 .\par
+{\pntext\f0 8.\tab}Type \b Function\b0  in the search bar.\par
+{\pntext\f0 9.\tab}Click \b Function App\b0  in the drop-down.\par
+{\pntext\f0 10.\tab}Click \b Create\b0  on the \b Function App\b0  blade.\par
+{\pntext\f0 11.\tab}In the \b App Name\b0  box type \b user559748FunctionApp\b0\par
+{\pntext\f0 12.\tab}In the \b Resource Group\b0  Field, select \b Use Existing\b0 .\par
+{\pntext\f0 13.\tab}Select the Resource Group that is in the list.\par
+{\pntext\f0 14.\tab}Notice the other configuration options available. We will keep the defaults for this lab.\par
+{\pntext\f0 15.\tab}Verify that Application Insights is set to \b Off\b0 .\par
+{\pntext\f0 16.\tab}Click \b Create\b0  at the bottom of the page.\par
+{\pntext\f0 17.\tab}After the \b Function App\b0  Blade closes, click on the \b Notifications\b0  icon in the upper right to watch the progress of the creation.\par
+{\pntext\f0 18.\tab}Once complete, click on \b Go to resource\b0  on the item in the \b Notifications\b0  list.\par
+{\pntext\f0 19.\tab}Close the \b Notifications\b0  blade.\par
+{\pntext\f0 20.\tab}This displays the Function App that you just created.\par
+{\pntext\f0 21.\tab}Notice that there are no actual functions present after creation of the \b Function App\b0  is complete.\par
+{\pntext\f0 22.\tab}\b Leave the browser open\b0 .\par
+
+\pard\sb100\sa100 Nestor has created an Azure Functions App, which will soon host an Azure function for order processing.\par
+
+\pard\keepn\sb100\sa100\kerning36\b\fs48 Scenario 2: Create a Web Request Function\par
+
+\pard\sb100\sa100\kerning0\b0\fs24 Nestor now needs to use the Azure Portal interface to create the Azure Function to process the data sent by the web server.\par
+
+\pard 
+{\pntext\f0 1.\tab}{\*\pn\pnlvlbody\pnf0\pnindent360\pnstart1\pndec{\pntxta.}}
+\fi-360\li720\sb100\sa100 Ensure you are on the \b Function App\b0  page.\par
+{\pntext\f0 2.\tab}Under the name of the function app on the left side of the \b Function Apps\b0  blade, click the \b +\b0  next to \b Functions\b0\par
+{\pntext\f0 3.\tab}Notice the available options for creating functions from templates.\par
+{\pntext\f0 4.\tab}Towards the bottom of the page, under \b Get started on your own\b0 , click \b Custom function\b0 .\par
+{\pntext\f0 5.\tab}Click \b HttpTrigger - C#\b0 .\par
+{\pntext\f0 6.\tab}In the \b Name your function\b0  box that appears, notice the default name given to the function. We will keep this name for now.\par
+{\pntext\f0 7.\tab}Notice the \b Authorization level\b0 .\par
+{\pntext\f0 8.\tab}Click \b Create\b0 .\par
+{\pntext\f0 9.\tab}Click here to open \b Notepad\b0  with a code file open: {{\field{\*\fldinst{HYPERLINK "launch://notepad_af_code_1/"}}{\fldrslt{\ul\cf1\cf1\ul Link}}}}\f0\fs24  (EOF)\line\line\line\line  \tab\line\par
+{\pntext\f0 10.\tab}Copy the code in the text file and paste it into the Azure function code window, replacing all the existing code.\par
+{\pntext\f0 11.\tab}Feel free to take a few moments to look through the code and observe what the function will be doing programmatically.\par
+{\pntext\f0 12.\tab}Click \b Save\b0\par
+
+\pard\sb100\sa100 The Azure Function has been built and is ready for testing.\par
+
+\pard\keepn\sb100\sa100\kerning36\b\fs48 Scenario 3: Test the Azure Function\par
+
+\pard\sb100\sa100\kerning0\b0\fs24 Now that the function is built Nestor wants to test that it correctly receives and processes data.\par
+You will simulate a number of orders using a PowerShell script to test that the function is responding correctly.\par
+First you need to get the URL of the Function in Azure.\par
+
+\pard 
+{\pntext\f0 1.\tab}{\*\pn\pnlvlbody\pnf0\pnindent360\pnstart1\pndec{\pntxta.}}
+\fi-360\li720\sb100\sa100 In the Azure Portal, click on \b </> Get function URL\b0  in the upper right corner of the code window.\par
+{\pntext\f0 2.\tab}In the small window that opens, click \b Copy\b0 .\par
+{\pntext\f0 3.\tab}Close the \b Get function URL\b0  window.\par
+{\pntext\f0 4.\tab}Click here to open \b PowerShell ISE\b0 : {{\field{\*\fldinst{HYPERLINK "launch://powershell_ise/"}}{\fldrslt{\ul\cf1\cf1\ul Link}}}}\f0\fs24\par
+{\pntext\f0 5.\tab}Click \b File -> Open\b0  and browse to \b C:\\DemoAssets\b0 .\par
+{\pntext\f0 6.\tab}Select \b HTTPPost.ps1\b0  and click \b Open\b0 .\par
+
+\pard\sb100\sa100 The PowerShell script needs to be modified to make the HTTP Post calls to the URL of the Function in Azure.\par
+
+\pard 
+{\pntext\f0 1.\tab}{\*\pn\pnlvlbody\pnf0\pnindent360\pnstart1\pndec{\pntxta.}}
+\fi-360\li720\sb100\sa100 On line 3, just after the \b =\b0  sign, paste the copied URL between single quotes.\par
+{\pntext\f0 2.\tab}Click \b File -> Save As\b0 , change the filename to \b HTTPPost2\b0  and click \b Save\b0 .\par
+{\pntext\f0 3.\tab}Push the \b Run Script\b0  button or press \b F5\b0  on the keyboard to run the script.\par
+
+\pard\li360\ri360\sb100\sa100 NOTE: This script, by default, sends 10 orders, with random customer IDs and quantities for a single product to the Azure Function.\par
+
+\pard 
+{\pntext\f0 1.\tab}{\*\pn\pnlvlbody\pnf0\pnindent360\pnstart1\pndec{\pntxta.}}
+\fi-360\li720\sb100\sa100 In the PowerShell ISE, using the command window, you should see a message similar to this:\par
+
+\pard\sb100\sa100 Copy code \par
+
+\pard\tx959\tx1918\tx2877\tx3836\tx4795\tx5754\tx6713\tx7672\tx8631\f2\fs20 StatusCode        : 200\par
+StatusDescription : OK\par
+Content           : \{"result":"CustomerID is 23056619, ProductID is 0334, Quantity is 1"\}\par
+RawContent        : HTTP/1.1 200 OK\par
+                    Pragma: no-cache\par
+                    Content-Length: 69\par
+                    Cache-Control: no-cache\par
+                    Content-Type: application/json; charset=utf-8\par
+                    Date: Tue, 29 Aug 2017 17:52:35 GMT\par
+                    Expires: -1\par
+                    Server: Microsoft-IIS/8...\par
+Forms             : \{\}\par
+Headers           : \{[Pragma, no-cache], [Content-Length, 69], [Cache-Control, no-cache], [Content-Type, application/json; charset=utf-8]...\}\par
+Images            : \{\}\par
+InputFields       : \{\}\par
+Links             : \{\}\par
+ParsedHtml        : mshtml.HTMLDocumentClass\par
+RawContentLength  : 69\par
+
+\pard\sb100\sa100\f0\fs24 Each of these messages is a call being made to the Function. The \b StatusCode\b0  and \b StatusDescription\b0  tell us that the call was successful. The \b Content\b0  line shows the value that was returned out from the Function.\par
+
+\pard 
+{\pntext\f0 1.\tab}{\*\pn\pnlvlbody\pnf0\pnindent360\pnstart1\pndec{\pntxta.}}
+\fi-360\li720\sb100\sa100 Verify in the command window that you see accurate data on the \b Content\b0  line.\par
+{\pntext\f0 2.\tab}Switch to the \b Azure Portal\b0  browser tab and click \b Monitor\b0  under the name of your function.\par
+{\pntext\f0 3.\tab}Verify that there were as many invocations of your functions as you specified in the script, and that the status is successful (This is shown with a green check mark).\par
+
+\pard\sb100\sa100 Nestor has now successfully tested the function to ensure it is receiving and processing order data correctly.\par
+
+\pard\keepn\sb100\sa100\kerning36\b\fs48 Scenario 4: Pre-requisites\par
+
+\pard\sb100\sa100\kerning0\b0\fs24 Now that the Function is operating successfully in Azure, you will now configure an Azure SQL database for the orders to be written to.\par
+
+\pard 
+{\pntext\f0 1.\tab}{\*\pn\pnlvlbody\pnf0\pnindent360\pnstart1\pndec{\pntxta.}}
+\fi-360\li720\sb100\sa100 Click here to run the SQL Table Creation PowerShell script: {{\field{\*\fldinst{HYPERLINK "launch://powershell_sql_script_2/"}}{\fldrslt{\ul\cf1\cf1\ul Link}}}}\f0\fs24 .\par
+{\pntext\f0 2.\tab}At the SQL Server Name prompt, type, or copy and paste \b sql-ezpdx2t3ipct6.database.windows.net\b0  and press \b Enter\b0 .\par
+{\pntext\f0 3.\tab}At the SQL Admin Password prompt, type the password \b K7VRBG#qd7ram\b0  and press \b Enter\b0 .\par
+{\pntext\f0 4.\tab}If prompted to enable data collection, type \b Y\b0 .\par
+{\pntext\f0 5.\tab}You will see a popup appear to login to your Azure Subscription.\par
+{\pntext\f0 6.\tab}In the \b Email\b0  field, type \b user559748@cloudplatimmersionlabs.onmicrosoft.com\b0\par
+{\pntext\f0 7.\tab}In the \b Password\b0  field, type the password \b Li$@KZOZdkz?\b0\par
+{\pntext\f0 8.\tab}Click \b Sign in\b0 .\par
+{\pntext\f0 9.\tab}Once the script completes, the PowerShell window should close.\par
+
+\pard\sb100\sa100 An Azure SQL Database has been deployed for receiving order information for the next part of the lab.\par
+The Azure Logic Apps Tools for Visual Studio 2017 need to be installed to enable editing of Logic Apps using the Logic Apps Designer.\par
+
+\pard 
+{\pntext\f0 1.\tab}{\*\pn\pnlvlbody\pnf0\pnindent360\pnstart1\pndec{\pntxta.}}
+\fi-360\li720\sb100\sa100 Click on the \b Start\b0  icon and type \b Visual Studio 2017\b0 .\par
+{\pntext\f0 2.\tab}In the search results, click on \b Visual Studio 2017\b0 .\par
+{\pntext\f0 3.\tab}If prompted to sign in, click \b Not now, maybe later\b0 .\par
+{\pntext\f0 4.\tab}Click \b Start Visual Studio\b0 .\par
+{\pntext\f0 5.\tab}Click the \b Tools\b0  menu and select \b Extensions and Updates\b0 .\par
+{\pntext\f0 6.\tab}On the left side of the \b Extensions and Updates\b0  windows, click \b Online\b0 .\par
+{\pntext\f0 7.\tab}In the \b Search\b0  box, type \b Azure Logic Apps Tools for Visual Studio 2017\b0 .\par
+{\pntext\f0 8.\tab}In the search results, click \b Download\b0 .\par
+{\pntext\f0 9.\tab}Click \b Close\b0 .\par
+{\pntext\f0 10.\tab}Close \b Visual Studio\b0 .\par
+{\pntext\f0 11.\tab}On the \b VSIX Installer\b0 , click \b Modify\b0 .\par
+{\pntext\f0 12.\tab}When the installation has completed, click \b Close\b0 .\par
+
+\pard\keepn\sb100\sa100\kerning36\b\fs48 Scenario 5: Create a Logic App and Workflow in Visual Studio\par
+
+\pard\sb100\sa100\kerning0\b0\fs24 Now you will build out an Azure Logic App using the Azure Portal. This Logic App will take data output from the Azure Function and place the orders into a SQL Database and email stakeholders with the order information.\par
+
+\pard 
+{\pntext\f0 1.\tab}{\*\pn\pnlvlbody\pnf0\pnindent360\pnstart1\pndec{\pntxta.}}
+\fi-360\li720\sb100\sa100 Click on the \b Start\b0  icon and type \b Visual Studio 2017\b0 .\par
+{\pntext\f0 2.\tab}In the search results, click on \b Visual Studio 2017\b0 .\par
+{\pntext\f0 3.\tab}In Visual Studio, click \b File\b0  -> \b New\b0  -> \b Project\b0 .\par
+{\pntext\f0 4.\tab}In the left pane, select \b Installed\b0  -> \b Visual C#\b0  -> \b Cloud\b0 .\par
+{\pntext\f0 5.\tab}Select \b Azure Resource Group\b0 .\par
+{\pntext\f0 6.\tab}In the Name field type \b user559748LogicApp2\b0\par
+{\pntext\f0 7.\tab}Click \b OK\b0 .\par
+{\pntext\f0 8.\tab}In the next screen, select the \b Logic App\b0  template.\par
+{\pntext\f0 9.\tab}Click \b OK\b0 .\par
+{\pntext\f0 10.\tab}Right-click the \b LogicApp.json\b0  file, and select \b Open with Logic App Designer\b0 .\par
+{\pntext\f0 11.\tab}Click \b Add an account\b0 .\par
+{\pntext\f0 12.\tab}In the \b Email\b0  field, type \b user559748@cloudplatimmersionlabs.onmicrosoft.com\b0\par
+{\pntext\f0 13.\tab}In the \b Password\b0  field, type the password \b Li$@KZOZdkz?\b0\par
+{\pntext\f0 14.\tab}Click \b Sign in\b0 .\par
+{\pntext\f0 15.\tab}Note the defaults populated for Azure subscription, resource group, and location for your deployment template.\par
+{\pntext\f0 16.\tab}Click \b OK\b0 .\par
+{\pntext\f0 17.\tab}In Visual Studio, click \b When a HTTP request is received\b0 .\par
+{\pntext\f0 18.\tab}In the designer, expand the \b Request\b0  step (labeled \b When a HTTP request is received\b0 ).\par
+
+\pard\sb100\sa100 You have to provide a definition for the parameters that will be coming in to the Logic App.\par
+
+\pard 
+{\pntext\f0 1.\tab}{\*\pn\pnlvlbody\pnf0\pnindent360\pnstart1\pndec{\pntxta.}}
+\fi-360\li720\sb100\sa100 Click here to open \b Notepad\b0  with a code file open: {{\field{\*\fldinst{HYPERLINK "launch://notepad_ala_code_1/"}}{\fldrslt{\ul\cf1\cf1\ul Link}}}}\f0\fs24\par
+{\pntext\f0 2.\tab}Copy the code in text file and paste it into the \b Request Body JSON Schema\b0  window.\par
+{\pntext\f0 3.\tab}Click \b File -> Save LogicApp.json\b0  or press \b Ctrl+S\b0  to save the file.\par
+
+\pard\sb100\sa100 Now you can add the steps that the Logic App will carry out. Using the Logic Apps Designer means no coding skills are required.\par
+
+\pard 
+{\pntext\f0 1.\tab}{\*\pn\pnlvlbody\pnf0\pnindent360\pnstart1\pndec{\pntxta.}}
+\fi-360\li720\sb100\sa100 Click \b + New step\b0 .\par
+{\pntext\f0 2.\tab}Select \b Add an action\b0 .\par
+{\pntext\f0 3.\tab}In the search box, type \b SQL\b0 .\par
+{\pntext\f0 4.\tab}When the results appear, select \b SQL Server\b0 .\par
+{\pntext\f0 5.\tab}Select \b SQL Server - Insert row\b0 .\par
+{\pntext\f0 6.\tab}In the \b Connection Name\b0  field type \b AzureServerlessLabSQLConn2\b0 .\par
+{\pntext\f0 7.\tab}In the \b SQL Server Name\b0  list click your SQL Server.\par
+{\pntext\f0 8.\tab}In the \b SQL Database Name\b0  list that appears click \b AzureServerlessLab\b0 .\par
+{\pntext\f0 9.\tab}In the \b Username\b0  field type \b SQLAdmin\b0\par
+{\pntext\f0 10.\tab}In the \b Password\b0  field type \b K7VRBG#qd7ram\b0\par
+{\pntext\f0 11.\tab}Click \b Create\b0\par
+{\pntext\f0 12.\tab}Once the Insert row window has opened, in the \b Table name\b0  field select \b Orders2\b0 .\par
+{\pntext\f0 13.\tab}Click in the \b CustomerID\b0  field and use the \b Dynamic content\b0  window to select \b CustomerID\b0  from under \b Request\b0 .\par
+{\pntext\f0 14.\tab}Click in the \b ProductID\b0  field and use the \b Dynamic content\b0  window to select \b ProductID\b0  from under \b Request\b0 .\par
+
+\pard\sb100\sa100 Up to this point you have used the Logic App Designer to build this logic app. Now we will take a look at the \b code view\b0  in Visual Studio. This allows more complex operations to be carried out by the Logic App.\par
+
+\pard 
+{\pntext\f0 1.\tab}{\*\pn\pnlvlbody\pnf0\pnindent360\pnstart1\pndec{\pntxta.}}
+\fi-360\li720\sb100\sa100 At the bottom of the Visual Studio window, click \b Code view\b0\par
+{\pntext\f0 2.\tab}On line 17, just after \b "Quantity":\b0  replace null with (including the quotes):\par
+
+\pard\sb100\sa100 "@triggerBody()?['Quantity']"\par
+
+\pard 
+{\pntext\f0 1.\tab}{\*\pn\pnlvlbody\pnf0\pnindent360\pnstart1\pndec{\pntxta.}}
+\fi-360\li720\sb100\sa100 Click \b File -> Save LogicApp.json\b0 .\par
+{\pntext\f0 2.\tab}At the bottom of the Visual Studio window, click \b Design\b0 .\par
+{\pntext\f0 3.\tab}Expand the \b Insert Row\b0  action to verify that all three fields are populated.\par
+
+\pard\sb100\sa100 Here you can see in the designer view the value you entered in the code view.\par
+Now that the order is being written to the Azure SQL Database you need to configure the Logic App to send the confirmation email.\par
+
+\pard 
+{\pntext\f0 1.\tab}{\*\pn\pnlvlbody\pnf0\pnindent360\pnstart1\pndec{\pntxta.}}
+\fi-360\li720\sb100\sa100 Click \b "+ New Step"\b0 .\par
+{\pntext\f0 2.\tab}Select \b Add an action\b0 .\par
+{\pntext\f0 3.\tab}In the search box, type \b outlook\b0 .\par
+{\pntext\f0 4.\tab}When the results appear, select \b Office 365 Outlook\b0 .\par
+{\pntext\f0 5.\tab}Select \b Office 365 Outlook - Send an Email\b0  and click \b Sign in\b0 .\par
+{\pntext\f0 6.\tab}In the popup Authentication window, in the \b Email or phone\b0  field, type \b pattif@HOLEMS213094.onmicrosoft.com\b0\par
+{\pntext\f0 7.\tab}In the \b Password\b0  field, type \b Li$@KZOZdkz?\b0\par
+{\pntext\f0 8.\tab}Once the Authentication windows closes and you return to the Logic App Designer window, place your cursor in the \b To\b0  field and type \b meganb@HOLEMS213094.onmicrosoft.com\b0\par
+{\pntext\f0 9.\tab}In the \b Subject\b0  field, type \b Your Logic App Confirmation\b0 .\par
+{\pntext\f0 10.\tab}In the \b Body\b0  field, type \b Your Customer ID is:\b0  and then select \b CustomerID\b0  from the Dynamic content window and press \b Enter\b0 .\par
+{\pntext\f0 11.\tab}In the \b Body\b0  field, type \b Your Product ID is:\b0  and then select \b ProductID\b0  from the Dynamic content window and press \b Enter\b0 .\par
+{\pntext\f0 12.\tab}In the \b Body\b0  field, type \b Your Quantity is:\b0  and then select \b Quantity\b0  from the Dynamic content window.\par
+{\pntext\f0 13.\tab}Click \b File -> Save LogicApp.json\b0 .\par
+
+\pard\sb100\sa100 Nestor has successfully created an Azure Logic App.\par
+
+\pard\keepn\sb100\sa100\kerning36\b\fs48 Scenario 6: Publish a Logic App from Visual Studio\par
+
+\pard\sb100\sa100\kerning0\b0\fs24 Nestor now needs to create a workflow to do the heavy lifting of the Logic App.\par
+Nestor will configure insertion of a record into an Azure SQL Database as well as sending of a confirmation email.\par
+
+\pard 
+{\pntext\f0 1.\tab}{\*\pn\pnlvlbody\pnf0\pnindent360\pnstart1\pndec{\pntxta.}}
+\fi-360\li720\sb100\sa100 If the LogicApp2 Project is currently open in Visual Studio skip to step 4.\par
+{\pntext\f0 2.\tab}Launch \b Visual Studio\b0 .\par
+{\pntext\f0 3.\tab}Click \b File -> Recent Project and Solutions -> LogicApp2.sln\b0 .\par
+{\pntext\f0 4.\tab}In Solution Explorer, right-click your \b LogicApp2\b0 , and select \b Deploy -> New...\b0\par
+{\pntext\f0 5.\tab}Note the defaults for the Azure subscription, resource group, and deployment template and parameters file.\par
+{\pntext\f0 6.\tab}Click \b Deploy\b0 .\par
+{\pntext\f0 7.\tab}You will be prompted to name your Azure Logic App. In the field, type \b user559748LogicApp2\b0\par
+{\pntext\f0 8.\tab}Click \b Save\b0 .\par
+{\pntext\f0 9.\tab}When prompted for a SQL Username, enter \b SQLAdmin\b0 . (Note: sometimes this PowerShell window appears behind the Visual Studio window)\par
+{\pntext\f0 10.\tab}Press \b Enter\b0 .\par
+{\pntext\f0 11.\tab}When prompted for a SQL Password, enter \b K7VRBG#qd7ram\b0\par
+{\pntext\f0 12.\tab}Press \b Enter\b0 .\par
+{\pntext\f0 13.\tab}In Visual Studio the \b Output\b0  windows will track the deployment progress.\par
+{\pntext\f0 14.\tab}This should end with a message saying the template successfully deployed.\par
+
+\pard\sb100\sa100 Nestor has successfully built the Logic App workflow using the Logic App Designer.\par
+
+\pard\keepn\sb100\sa100\kerning36\b\fs48 Scenario 7: Connect the Function to the Logic App\par
+
+\pard\sb100\sa100\kerning0\b0\fs24 Now that the Azure Logic App is built, Nestor needs to modify the existing Azure Function to send data to it.\par
+You will add code to move the data sent by the web ordering system through the Azure Function and into the Azure Logic App.\par
+
+\pard 
+{\pntext\f0 1.\tab}{\*\pn\pnlvlbody\pnf0\pnindent360\pnstart1\pndec{\pntxta.}}
+\fi-360\li720\sb100\sa100 Switch back to the Edge browser.\par
+{\pntext\f0 2.\tab}Select the \b All Resources\b0  icon on the left side of the screen.\par
+{\pntext\f0 3.\tab}Select \b user559748FunctionApp\b0  from the list of Azure resources.\par
+{\pntext\f0 4.\tab}Click the name of your function, which should be \b HttpTriggerCSharp1\b0 .\par
+{\pntext\f0 5.\tab}Using \b Explorer\b0 , browse to \b C:\\DemoAssets\b0 .\par
+{\pntext\f0 6.\tab}Open \b AFCode2.txt\b0  in \b Notepad\b0 .\par
+
+\pard\sb100\sa100 This text file contains the code you need to add to the Function.\par
+
+\pard 
+{\pntext\f0 1.\tab}{\*\pn\pnlvlbody\pnf0\pnindent360\pnstart1\pndec{\pntxta.}}
+\fi-360\li720\sb100\sa100 Copy the code in \b AFCode2.txt\b0 .\par
+{\pntext\f0 2.\tab}Switch back to Microsoft Edge.\par
+{\pntext\f0 3.\tab}In the code window, place the cursor just before the final \b return\b0  in the code and press \b Enter\b0  once.\par
+{\pntext\f0 4.\tab}Paste the copied code into the line above the final \b return\b0 .\par
+
+\pard\sb100\sa100 You need to tell the Function the URL of the Logic App, so that it can send the output to the Logic App in Azure.\par
+
+\pard 
+{\pntext\f0 1.\tab}{\*\pn\pnlvlbody\pnf0\pnindent360\pnstart1\pndec{\pntxta.}}
+\fi-360\li720\sb100\sa100 Open a new browser tab and navigate to \b portal.azure.com\b0 .\par
+{\pntext\f0 2.\tab}On the left navigation bar, click on \b More services >\b0 .\par
+{\pntext\f0 3.\tab}In the Filter textbox, type \b Logic\b0 .\par
+{\pntext\f0 4.\tab}Click on \b Logic Apps\b0 .\par
+{\pntext\f0 5.\tab}Click on \b user559748LogicApp2\b0 .\par
+{\pntext\f0 6.\tab}Notice the \b Callback url\b0  on the right side of the \b Overview\b0  blade.\par
+{\pntext\f0 7.\tab}Click the \b Copy\b0  button next to the \b Callback url\b0 .\par
+{\pntext\f0 8.\tab}Switch tabs to the Azure Function code window.\par
+{\pntext\f0 9.\tab}Paste the url between the quotes and over the label \b "<INSERT URL HERE>"\b0  in the snippet previously inserted.\par
+{\pntext\f0 10.\tab}Feel free to take a few moments to look through the code and observe what the function will be doing programmatically.\par
+{\pntext\f0 11.\tab}Click \b Save\b0\par
+
+\pard\sb100\sa100 Nestor has successfully configured the Azure Function to forward data to the Azure Logic App as part of its order processing.\par
+
+\pard\keepn\sb100\sa100\kerning36\b\fs48 Scenario 8: Test the Azure Function/Logic App Combination\par
+
+\pard\sb100\sa100\kerning0\b0\fs24 Once all of the pieces are built, Nestor needs to ensure that everything works correctly.\par
+You will simulate a number of orders to test that the function and logic app are working correctly in Azure.\par
+
+\pard 
+{\pntext\f0 1.\tab}{\*\pn\pnlvlbody\pnf0\pnindent360\pnstart1\pndec{\pntxta.}}
+\fi-360\li720\sb100\sa100 On the taskbar, right click the \b Microsoft Edge\b0  browser icon and select \b New InPrivate Window\b0 .\par
+{\pntext\f0 2.\tab}Maximize the browser window, if necessary.\par
+{\pntext\f0 3.\tab}In the address bar, type \b outlook.office365.com\b0  then press <ENTER>.\par
+{\pntext\f0 4.\tab}In the \b Email\b0  field, type \b meganb@HOLEMS213094.onmicrosoft.com\b0\par
+{\pntext\f0 5.\tab}In the \b Password\b0  field, type the password \b Li$@KZOZdkz?\b0\par
+{\pntext\f0 6.\tab}Click \b Sign in\b0 .\par
+{\pntext\f0 7.\tab}Return to your open \b PowerShell ISE\b0  window. Click here to open if it is was closed: {{\field{\*\fldinst{HYPERLINK "launch://powershell_ise/"}}{\fldrslt{\ul\cf1\cf1\ul Link}}}}\f0\fs24 .\par
+{\pntext\f0 8.\tab}Click \b File -> Open\b0  and browse to \b C:\\DemoAssets\b0 .\par
+{\pntext\f0 9.\tab}Select \b HTTPPost2.ps1\b0  and click \b Open\b0 .\par
+{\pntext\f0 10.\tab}Push the \b Run Script\b0  button or press \b F5\b0  on the keyboard to run the script.\par
+
+\pard\li360\ri360\sb100\sa100 NOTE: This script sends 10 orders, with random customer IDs and quantities for a single product to the Azure Function, which then forwards the information to the Logic App.\par
+
+\pard\sb100\sa100 You can verify in the Outlook mailbox that the order confirmation emails are being sent correctly.\par
+
+\pard 
+{\pntext\f0 1.\tab}{\*\pn\pnlvlbody\pnf0\pnindent360\pnstart1\pndec{\pntxta.}}
+\fi-360\li720\sb100\sa100 Switch to the open email window and verify that you receive 10 Azure Logic App Confirmation emails containing order details.\par
+
+\pard\sb100\sa100 Nestor has now successfully tested the function and logic app to ensure they are receiving and processing order data correctly.\par
+In this Experience, through creating and building an Azure Function and an Azure Logic App, the following benefits have been realized:\par
+
+\pard{\pntext\f4\'B7\tab}{\*\pn\pnlvlblt\pnf4\pnindent360{\pntxtb\'B7}}\fi-360\li720\sb100\sa100 Non-developer ability to build multi-functional application features across multiple cloud services \par
+{\pntext\f4\'B7\tab}Greatly reduced load on on-premises web server hardware \par
+{\pntext\f4\'B7\tab}On-demand resource availability \par
+{\pntext\f4\'B7\tab}Demand-based resource cost, resulting in lower costs under any workload\par
+
+\pard\sa200\sl276\slmult1\f1\fs22\lang9\par
+\par
+\par
+\f3\fs18 Code (Scenario 2.9)\par
+#r "Newtonsoft.Json"\par
+\par
+using System;\par
+using System.Net;\par
+using System.Threading.Tasks;\par
+using Newtonsoft.Json;\par
+using System.Text;\par
+\par
+public static async Task<object> Run(HttpRequestMessage req, TraceWriter log)\par
+\{\par
+    // Deserialize our POSTed JSON data\par
+    string jsonContent = await req.Content.ReadAsStringAsync();\par
+    dynamic data = JsonConvert.DeserializeObject(jsonContent);\par
+    \par
+    // Validation Blocks\par
+    \par
+    // Check for null values\par
+    if (data.CustomerID == null || data.ProductID == null || data.Quantity == null) \{\par
+        return req.CreateResponse(HttpStatusCode.BadRequest, new \{\par
+            error = "Please pass customer/product properties in the input object"\par
+        \});\par
+    \}\par
+\par
+    // Ensure a valid product\par
+    else if (data.ProductID != "0334") \{\par
+        return req.CreateResponse(HttpStatusCode.BadRequest, new \{\par
+           error = "Product is invalid. Please enter a valid Product."\par
+        \});\par
+    \}\par
+    \par
+    // Validate Quantity\par
+    else if (data.Quantity < 1 || data.Quantity > 10) \{\par
+        return req.CreateResponse(HttpStatusCode.BadRequest, new \{\par
+           error = "Quantity is invalid. Please enter a valid Quantity."\par
+        \});\par
+    \}\par
+\par
+    else \{\par
+        return req.CreateResponse(HttpStatusCode.OK, new \{\par
+            result = $"CustomerID is \{data.CustomerID\}, ProductID is \{data.ProductID\}, Quantity is \{data.Quantity\}"\par
+        \});\par
+    \}\par
+\}\par
+}
+ 
