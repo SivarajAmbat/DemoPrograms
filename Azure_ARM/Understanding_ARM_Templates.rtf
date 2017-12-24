@@ -1,0 +1,402 @@
+{\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\froman\fcharset0 Times New Roman;}{\f1\fswiss\fcharset0 Courier New;}{\f2\fnil\fcharset0 Calibri;}{\f3\fnil\fcharset2 Symbol;}}
+{\colortbl ;\red0\green0\blue255;}
+{\*\generator Riched20 10.0.14393}\viewkind4\uc1 
+\pard\sb100\sa100\f0\fs24 Understanding ARM Templates \par
+
+\pard\keepn\sb100\sa100\kerning36\b\fs48 Understanding Azure Resource Manager Templates\par
+\kerning0\fs36 Overview\par
+
+\pard\sb100\sa100\b0\fs24 This lab will guide the user through the structure and use of Azure Resource Manager (ARM) templates. The lab will walk the user through the process of loading an ARM template into Visual Studio, explain various sections of the template, and show the user how to run a simple pre-configured template in Azure.\par
+
+\pard\keepn\sb100\sa100\b\fs28 Lab Goals\par
+
+\pard{\pntext\f3\'B7\tab}{\*\pn\pnlvlblt\pnf3\pnindent360{\pntxtb\'B7}}\fi-360\li720\sb100\sa100\b0\fs24 Understand ARM template structure and schema, including: \par
+
+\pard{\pntext\f3\'B7\tab}{\*\pn\pnlvlblt\pnf3\pnindent360{\pntxtb\'B7}}\fi-360\li1440\sb100\sa100 Parameters \par
+{\pntext\f3\'B7\tab}Variables \par
+{\pntext\f3\'B7\tab}Resources\par
+
+\pard{\pntext\f3\'B7\tab}{\*\pn\pnlvlblt\pnf3\pnindent360{\pntxtb\'B7}}\fi-360\li720\sb100\sa100 Understand PowerShell-driven Deployment \par
+{\pntext\f3\'B7\tab}Deploy PaaS resources via an ARM template \par
+{\pntext\f3\'B7\tab}Deploy IaaS resources via an ARM template\par
+
+\pard\keepn\sb100\sa100\b Overview\par
+
+\pard\sb100\sa100\b0 ARM templates have a core structure which includes various components. The components include:\par
+
+\pard{\pntext\f3\'B7\tab}{\*\pn\pnlvlblt\pnf3\pnindent360{\pntxtb\'B7}}\fi-360\li720\sb100\sa100\b Schema\b0  - All templates require an ARM schema reference in order for ARM to validate the template. ARM template schema's are hosted at {{\field{\*\fldinst{HYPERLINK https://github.com/Azure/azure-resource-manager-schemas.git }}{\fldrslt{https://github.com/Azure/azure-resource-manager-schemas.git\ul0\cf0}}}}\f0\fs24 . \par
+{\pntext\f3\'B7\tab}\b Content version\b0  - This component is used by the developer to keep track of which version of the template is current. \par
+{\pntext\f3\'B7\tab}\b Parameters\b0  - Parameters are pieces of information which ARM needs to know about. Examples are names of VM's, regions, resource groups, etc. \par
+{\pntext\f3\'B7\tab}\b Variables\b0  - Variables contain details which ARM can determine on its own, for example resource ID's of resources created in Azure. \par
+{\pntext\f3\'B7\tab}\b Resources\b0  - The Resources component is the main component of the ARM template and contains all the resources that the template will create and deploy. \par
+{\pntext\f3\'B7\tab}\b Outputs\b0  - Outputs are information you want to pass from the template to other applications such as PowerShell.\par
+
+\pard\sb100\sa100 ARM template parameters have a specified structure:\par
+
+\pard{\pntext\f3\'B7\tab}{\*\pn\pnlvlblt\pnf3\pnindent360{\pntxtb\'B7}}\fi-360\li720\sb100\sa100\b name\b0  - The name of the parameter and how it is referred to in other components of the ARM template. \par
+{\pntext\f3\'B7\tab}\b type\b0  - Defines the type of value for the parameter (for example, string, integer, array, etc.). \par
+{\pntext\f3\'B7\tab}\b defaultValue\b0  - The value to be used if no value has been provided. \par
+{\pntext\f3\'B7\tab}\b allowedValues\b0  - A list of values that are allowed as the value property. \par
+{\pntext\f3\'B7\tab}\b Metadata\b0  - A description of what this parameter is used for in the ARM template.\par
+
+\pard\sb100\sa100 ARM template variables are optional pieces of information that are part of the ARM template and can be determine by ARM during the deployment process.\par
+ARM template resources have the same structure:\par
+
+\pard{\pntext\f3\'B7\tab}{\*\pn\pnlvlblt\pnf3\pnindent360{\pntxtb\'B7}}\fi-360\li720\sb100\sa100\b Type\b0  - Defines the type of resource that will be created. \par
+{\pntext\f3\'B7\tab}\b Name\b0  - Identifies the name of resource. \par
+{\pntext\f3\'B7\tab}\b apiVersion\b0  - Identifies which version of the API should be used during the creation of this resource. \par
+{\pntext\f3\'B7\tab}\b Location\b0  - The geographical location where the resource is created. \par
+{\pntext\f3\'B7\tab}\b Properties\b0  - The list of properties required by the ARM template to create the resource.\par
+
+\pard\sb100\sa100\b Capabilities or components used in this scenario:\b0\par
+
+\pard{\pntext\f3\'B7\tab}{\*\pn\pnlvlblt\pnf3\pnindent360{\pntxtb\'B7}}\fi-360\li720\sb100\sa100 PowerShell ISE \par
+{\pntext\f3\'B7\tab}PaaS Resource Deployment \par
+{\pntext\f3\'B7\tab}IaaS Resource Deployment \par
+{\pntext\f3\'B7\tab}Azure Portal\par
+
+\pard\keepn\sb100\sa100\b\fs36\par
+\par
+Understanding Azure Resource Manager Templates\par
+
+\pard\sb100\sa100\b0\fs24 In this lab, you will create simple Azure Resource Manager templates for both a Platform as a Service (PaaS) scenario and an Infrastructure as a Service (IaaS) scenario. You will deploy the ARM templates using PowerShell and verify their deployment through the Azure portal.\par
+
+\pard\keepn\sb100\sa100\b Experience A - Deploy a PaaS Resource\par
+
+\pard\sb100\sa100\b0 In this experience, you will create a simple template to deploy a PaaS resource into Azure.\par
+
+\pard 
+{\pntext\f0 1.\tab}{\*\pn\pnlvlbody\pnf0\pnindent360\pnstart1\pndec{\pntxta.}}
+\fi-360\li720\sb100\sa100 {{\field{\*\fldinst{HYPERLINK "launch://launch_ise/"}}{\fldrslt{\ul\cf1\cf1\ul Click here to open PowerShell ISE}}}}\f0\fs24\par
+{\pntext\f0 2.\tab}In \b PowerShell ISE\b0 , click \b File > Open\b0\par
+{\pntext\f0 3.\tab}In the \b Documents\b0  folder, open the \b HOL_Lab_Files\b0  folder\par
+{\pntext\f0 4.\tab}Open the \b 1_Understanding_Azure_Resource_Manager_Templates\b0  folder, and double-click the \b Deploy-SimplePaaS\b0  file\par
+{\pntext\f0 5.\tab}In the \b blue PowerShell window\b0 , paste the following line and press \b Enter\b0  to launch the Azure login:\par
+
+\pard 
+{\pntext\f0 6.\tab}{\*\pn\pnlvlbody\pnf0\pnindent0\pnstart1\pndec{\pntxta.}}
+\li720\sb100\sa100 Copy code \par
+
+\pard 
+{\pntext\f1 7.\tab}{\*\pn\pnlvlbody\pnf1\pnindent0\pnstart1\pndec{\pntxta.}}
+\li720\tx959\tx1918\tx2877\tx3836\tx4795\tx5754\tx6713\tx7672\tx8631\f1\fs20  Add-AzureRmAccount\par
+
+\pard 
+{\pntext\f0 8.\tab}{\*\pn\pnlvlbody\pnf0\pnindent360\pnstart1\pndec{\pntxta.}}
+\fi-360\li720\sb100\sa100\f0\fs24 In the login screen's \b Email or phone\b0  field, enter \b user781456@cloudplatimmersionlabs.onmicrosoft.com\b0\par
+{\pntext\f0 9.\tab}Click \b Next\b0\par
+{\pntext\f0 10.\tab}In the \b Password\b0  field, enter \b D;SF&=I9WXk.\b0\par
+{\pntext\f0 11.\tab}Click \b Sign in\b0\par
+
+\pard 
+{\pntext\f0 12.\tab}{\*\pn\pnlvlbody\pnf0\pnindent0\pnstart1\pndec{\pntxta.}}
+\li1080\ri1080\sb100\sa100\b Note:\b0  Now you will define some variables in the PowerShell file. You should not hard code variables as part of an ARM template because it makes it more difficult to re-use the template. Variables can be referenced throughout the ARM template using the 'variables' object.\par
+
+\pard 
+{\pntext\f0 13.\tab}{\*\pn\pnlvlbody\pnf0\pnindent360\pnstart1\pndec{\pntxta.}}
+\fi-360\li720\sb100\sa100 In the \b Deploy-SimplePaas.ps1\b0  file, replace \b [resource group name]\b0  with \b rg781456\b0\par
+{\pntext\f0 14.\tab}Replace \b [resource group location]\b0  with \b southcentralus\b0\par
+{\pntext\f0 15.\tab}In the \b Define Deployment Variables\b0  section of the \b Deploy-SimplePaas.ps1 file\b0 , highlight the following four lines and click \b Run selection\b0  {\pict{\*\picprop}\wmetafile8\picw7620\pich2540\picwgoal4320\pichgoal1440 
+0100090000035500000003001c00000000000400000003010600050000000c02ec09c41d070000
+00fc020000000000000000040000002d01000008000000fa020000000000000000000004000000
+2d0101001c000000fb020c00090000000000900100000000000202024d532053616e7320536572
+69660058ac6e01000044c0aff41b0000001700b000040000002d0102000900000021050500696d
+6167650083fdbc07030000000000
+}\par
+
+\pard 
+{\pntext\f0 16.\tab}{\*\pn\pnlvlbody\pnf0\pnindent0\pnstart1\pndec{\pntxta.}}
+\li720\sb100\sa100 Copy code \par
+
+\pard 
+{\pntext\f1 17.\tab}{\*\pn\pnlvlbody\pnf1\pnindent0\pnstart1\pndec{\pntxta.}}
+\li720\tx959\tx1918\tx2877\tx3836\tx4795\tx5754\tx6713\tx7672\tx8631\f1\fs20  $resourceGroupName...\par
+{\pntext\f1 18.\tab} $resourceProviderNamespace...\par
+{\pntext\f1 19.\tab} $resourceTypeName...\par
+{\pntext\f1 20.\tab} $resourceGroupLocation...\par
+
+\pard 
+{\pntext\f0 21.\tab}{\*\pn\pnlvlbody\pnf0\pnindent360\pnstart1\pndec{\pntxta.}}
+\fi-360\li720\sb100\sa100\f0\fs24 In the \b Define Deployment Variables\b0  section of the \b Deploy-SimplePaas.ps1 file\b0 , highlight the following four lines and click \b Run selection\b0  {\pict{\*\picprop}\wmetafile8\picw7620\pich2540\picwgoal4320\pichgoal1440 
+0100090000035500000003001c00000000000400000003010600050000000c02ec09c41d070000
+00fc020000000000000000040000002d01000008000000fa020000000000000000000004000000
+2d0101001c000000fb020c00090000000000900100000000000202024d532053616e7320536572
+69660058ac6e01000044c0aff41b0000001700b000040000002d0102000900000021050500696d
+6167650083fdbc07030000000000
+}\par
+
+\pard 
+{\pntext\f0 22.\tab}{\*\pn\pnlvlbody\pnf0\pnindent0\pnstart1\pndec{\pntxta.}}
+\li720\sb100\sa100 Copy code \par
+
+\pard 
+{\pntext\f1 23.\tab}{\*\pn\pnlvlbody\pnf1\pnindent0\pnstart1\pndec{\pntxta.}}
+\li720\tx959\tx1918\tx2877\tx3836\tx4795\tx5754\tx6713\tx7672\tx8631\f1\fs20  $randomString = ([char[]]([char]'a'..[char]'z') + 0..9 | Sort-Object \{Get-Random\})[0..8] -join '' \par
+{\pntext\f1 24.\tab} $appNamePrefix = 'contoso'\par
+{\pntext\f1 25.\tab} $appServicePlanName = $appNamePrefix + $randomString\par
+{\pntext\f1 26.\tab} $webAppName = $appNamePrefix + $randomString\par
+
+\pard 
+{\pntext\f0 27.\tab}{\*\pn\pnlvlbody\pnf0\pnindent0\pnstart1\pndec{\pntxta.}}
+\li1080\ri1080\sb100\sa100\b\f0\fs24 Note:\b0  You have now established definitions for variables that will be used later in the deployment script.\par
+
+\pard 
+{\pntext\f0 28.\tab}{\*\pn\pnlvlbody\pnf0\pnindent360\pnstart1\pndec{\pntxta.}}
+\fi-360\li720\sb100\sa100 In the \b Create App Service Plan\b0  section of the \b Deploy-SimplePaas.ps1 file\b0 , highlight the following seven lines and click \b Run selection\b0  {\pict{\*\picprop}\wmetafile8\picw7620\pich2540\picwgoal4320\pichgoal1440 
+0100090000035500000003001c00000000000400000003010600050000000c02ec09c41d070000
+00fc020000000000000000040000002d01000008000000fa020000000000000000000004000000
+2d0101001c000000fb020c00090000000000900100000000000202024d532053616e7320536572
+69660058ac6e01000044c0aff41b0000001700b000040000002d0102000900000021050500696d
+6167650083fdbc07030000000000
+}\par
+
+\pard 
+{\pntext\f0 29.\tab}{\*\pn\pnlvlbody\pnf0\pnindent0\pnstart1\pndec{\pntxta.}}
+\li720\sb100\sa100 Copy code \par
+
+\pard 
+{\pntext\f1 30.\tab}{\*\pn\pnlvlbody\pnf1\pnindent0\pnstart1\pndec{\pntxta.}}
+\li720\tx959\tx1918\tx2877\tx3836\tx4795\tx5754\tx6713\tx7672\tx8631\f1\fs20  $appServicePlan = New-AzureRmAppServicePlan `\par
+{\pntext\f1 31.\tab} \tab -ResourceGroupName $resourceGroupName `\par
+{\pntext\f1 32.\tab} \tab -Location $resourceGroupLocation `\par
+{\pntext\f1 33.\tab} \tab -Name $appServicePlanName `\par
+{\pntext\f1 34.\tab} \tab -Tier Standard `\par
+{\pntext\f1 35.\tab} \tab -WorkerSize Small `\par
+{\pntext\f1 36.\tab} \tab -Verbose\par
+
+\pard 
+{\pntext\f0 37.\tab}{\*\pn\pnlvlbody\pnf0\pnindent0\pnstart1\pndec{\pntxta.}}
+\li1080\ri1080\sb100\sa100\b\f0\fs24 Note:\b0  You have now deployed an App Service Plan into the \b rg781456\b0  resource group with a randomized name for the App Service using a Standard tier pricing plan.\par
+
+\pard 
+{\pntext\f0 38.\tab}{\*\pn\pnlvlbody\pnf0\pnindent360\pnstart1\pndec{\pntxta.}}
+\fi-360\li720\sb100\sa100 In the \b Create Web App\b0  section of the \b Deploy-SimplePaas.ps1\b0  file, highlight the following six lines and click \b Run selection\b0  {\pict{\*\picprop}\wmetafile8\picw7620\pich2540\picwgoal4320\pichgoal1440 
+0100090000035500000003001c00000000000400000003010600050000000c02ec09c41d070000
+00fc020000000000000000040000002d01000008000000fa020000000000000000000004000000
+2d0101001c000000fb020c00090000000000900100000000000202024d532053616e7320536572
+69660058ac6e01000044c0aff41b0000001700b000040000002d0102000900000021050500696d
+6167650083fdbc07030000000000
+}\par
+
+\pard 
+{\pntext\f0 39.\tab}{\*\pn\pnlvlbody\pnf0\pnindent0\pnstart1\pndec{\pntxta.}}
+\li720\sb100\sa100 Copy code \par
+
+\pard 
+{\pntext\f1 40.\tab}{\*\pn\pnlvlbody\pnf1\pnindent0\pnstart1\pndec{\pntxta.}}
+\li720\tx959\tx1918\tx2877\tx3836\tx4795\tx5754\tx6713\tx7672\tx8631\f1\fs20  New-AzureRmWebApp `\par
+{\pntext\f1 41.\tab} \tab -ResourceGroupName $resourceGroupName `\par
+{\pntext\f1 42.\tab} \tab -Location $resourceGroupLocation `\par
+{\pntext\f1 43.\tab} \tab -AppServicePlan $appServicePlan.ServerFarmWithRichSkuName `\par
+{\pntext\f1 44.\tab} \tab -Name $webAppName `\par
+{\pntext\f1 45.\tab} \tab -Verbose\par
+
+\pard 
+{\pntext\f0 46.\tab}{\*\pn\pnlvlbody\pnf0\pnindent0\pnstart1\pndec{\pntxta.}}
+\li1080\ri1080\sb100\sa100\b\f0\fs24 Note:\b0  Now that you have deployed a web app and an associated app service plan, you can verify the settings in the Azure portal.\par
+
+\pard 
+{\pntext\f0 47.\tab}{\*\pn\pnlvlbody\pnf0\pnindent360\pnstart1\pndec{\pntxta.}}
+\fi-360\li720\sb100\sa100 {{\field{\*\fldinst{HYPERLINK "https://portal.azure.com/"}}{\fldrslt{\ul\cf1\cf1\ul Click here to open the Azure Portal}}}}\f0\fs24\par
+{\pntext\f0 48.\tab}In the \b Email or phone\b0  field, enter \b user781456@cloudplatimmersionlabs.onmicrosoft.com\b0\par
+{\pntext\f0 49.\tab}Click \b Next\b0\par
+{\pntext\f0 50.\tab}In the \b Password\b0  field, enter \b D;SF&=I9WXk.\b0\par
+{\pntext\f0 51.\tab}Click \b Sign in\b0\par
+{\pntext\f0 52.\tab}You \i may\i0  encounter a popup entitled \b Stay signed in?\b0  with buttons for \b No\b0  and \b Yes\b0  - Choose \b No\b0\par
+{\pntext\f0 53.\tab}You \i may\i0  encounter a \b Welcome to Microsoft Azure\b0  popup window with buttons for \b Start Tour\b0  and \b Maybe Later\b0  - choose \b Maybe Later\b0\par
+{\pntext\f0 54.\tab}In the Azure \b Favorites menu\b0  on the left, click \b App Services\b0\par
+{\pntext\f0 55.\tab}On the \b App services\b0  blade, click the app service you created\par
+{\pntext\f0 56.\tab}On the \b Overview\b0  blade of the \b App Service\b0 , click the \b URL\b0  link to view the external facing web application that you created\par
+
+\pard\sa200\sl276\slmult1\f2\fs22\lang9\par
+
+\pard\keepn\sb100\sa100\b\f0\fs24\lang1033 Experience B - Deploy an IaaS Resource\par
+
+\pard\sb100\sa100\b0 In this experience, you will create a simple template to deploy an IaaS resource into Azure.\par
+
+\pard 
+{\pntext\f0 1.\tab}{\*\pn\pnlvlbody\pnf0\pnindent360\pnstart1\pndec{\pntxta.}}
+\fi-360\li720\sb100\sa100 In \b PowerShell ISE\b0 , click \b File > Open\b0\par
+{\pntext\f0 2.\tab}In the \b HOL_Lab_Files/1_Understanding_Azure_Resource_Manager_Templates\b0  folder, double-click the \b Deploy-SimpleIaaS\b0  file\par
+
+\pard 
+{\pntext\f0 3.\tab}{\*\pn\pnlvlbody\pnf0\pnindent0\pnstart1\pndec{\pntxta.}}
+\li1080\ri1080\sb100\sa100\b Note:\b0  Now you will define some variables in the \b Deploy-SimpleIaaS.ps1\b0  file.\par
+
+\pard 
+{\pntext\f0 4.\tab}{\*\pn\pnlvlbody\pnf0\pnindent360\pnstart1\pndec{\pntxta.}}
+\fi-360\li720\sb100\sa100 In the \b Define Deployment Variables\b0  section of the \b Deploy-SimpleIaas.ps1 file\b0 , replace \b [resource group name]\b0  with \b rg781456\b0\par
+{\pntext\f0 5.\tab}In the \b Define Deployment Variables\b0  section of the \b Deploy-SimpleIaaS.ps1\b0  file, replace \b [resource group location]\b0  with \b southcentralus\b0\par
+{\pntext\f0 6.\tab}In the \b Define Deployment Variables\b0  section of the \b Deploy-SimpleIaas.ps1 file\b0 , highlight the following four lines and click \b Run selection\b0  {\pict{\*\picprop}\wmetafile8\picw7620\pich2540\picwgoal4320\pichgoal1440 
+0100090000035500000003001c00000000000400000003010600050000000c02ec09c41d070000
+00fc020000000000000000040000002d01000008000000fa020000000000000000000004000000
+2d0101001c000000fb020c00090000000000900100000000000202024d532053616e7320536572
+69660058ac6e01000014c0aff41b0000001700b000040000002d0102000900000021050500696d
+6167650083fdbc07030000000000
+}\par
+
+\pard 
+{\pntext\f0 7.\tab}{\*\pn\pnlvlbody\pnf0\pnindent0\pnstart1\pndec{\pntxta.}}
+\li720\sb100\sa100 Copy code \par
+
+\pard 
+{\pntext\f1 8.\tab}{\*\pn\pnlvlbody\pnf1\pnindent0\pnstart1\pndec{\pntxta.}}
+\li720\tx959\tx1918\tx2877\tx3836\tx4795\tx5754\tx6713\tx7672\tx8631\f1\fs20  $resourceGroupName...\par
+{\pntext\f1 9.\tab} $resourceProviderNamespace...\par
+{\pntext\f1 10.\tab} $resourceTypeName...\par
+{\pntext\f1 11.\tab} $resourceGroupLocation...\par
+
+\pard 
+{\pntext\f0 12.\tab}{\*\pn\pnlvlbody\pnf0\pnindent360\pnstart1\pndec{\pntxta.}}
+\fi-360\li720\sb100\sa100\f0\fs24 Highlight the following six lines that define variables for a \b Virtual Network\b0  and click \b Run selection\b0  {\pict{\*\picprop}\wmetafile8\picw7620\pich2540\picwgoal4320\pichgoal1440 
+0100090000035500000003001c00000000000400000003010600050000000c02ec09c41d070000
+00fc020000000000000000040000002d01000008000000fa020000000000000000000004000000
+2d0101001c000000fb020c00090000000000900100000000000202024d532053616e7320536572
+69660058ac6e01000014c0aff41b0000001700b000040000002d0102000900000021050500696d
+6167650083fdbc07030000000000
+}\par
+
+\pard 
+{\pntext\f0 13.\tab}{\*\pn\pnlvlbody\pnf0\pnindent0\pnstart1\pndec{\pntxta.}}
+\li720\sb100\sa100 Copy code \par
+
+\pard 
+{\pntext\f1 14.\tab}{\*\pn\pnlvlbody\pnf1\pnindent0\pnstart1\pndec{\pntxta.}}
+\li720\tx959\tx1918\tx2877\tx3836\tx4795\tx5754\tx6713\tx7672\tx8631\f1\fs20  $vNetName = 'vnet-contoso'\par
+{\pntext\f1 15.\tab} $vNetAddressPrefix = '172.16.0.0/16'\par
+{\pntext\f1 16.\tab} $vNetSubnet1Name = 'subnet-1'\par
+{\pntext\f1 17.\tab} $vNetSubnet1Prefix = '172.16.1.0/24'\par
+{\pntext\f1 18.\tab} $vNetSubnet2Name = 'subnet-2'\par
+{\pntext\f1 19.\tab} $vNetSubnet2Prefix = '172.16.2.0/24'\par
+
+\pard 
+{\pntext\f0 20.\tab}{\*\pn\pnlvlbody\pnf0\pnindent0\pnstart1\pndec{\pntxta.}}
+\li1080\ri1080\sb100\sa100\b\f0\fs24 Note:\b0  You have now defined network and subnet variables that will be used when you deploy the virtual network.\par
+
+\pard 
+{\pntext\f0 21.\tab}{\*\pn\pnlvlbody\pnf0\pnindent360\pnstart1\pndec{\pntxta.}}
+\fi-360\li720\sb100\sa100 In the \b Create Virtual Network Subnets\b0  section of the \b Deploy-SimpleIaas.ps1 file\b0 , highlight the following eight lines and click \b Run selection\b0  {\pict{\*\picprop}\wmetafile8\picw7620\pich2540\picwgoal4320\pichgoal1440 
+0100090000035500000003001c00000000000400000003010600050000000c02ec09c41d070000
+00fc020000000000000000040000002d01000008000000fa020000000000000000000004000000
+2d0101001c000000fb020c00090000000000900100000000000202024d532053616e7320536572
+69660058ac6e01000014c0aff41b0000001700b000040000002d0102000900000021050500696d
+6167650083fdbc07030000000000
+}\par
+
+\pard 
+{\pntext\f0 22.\tab}{\*\pn\pnlvlbody\pnf0\pnindent0\pnstart1\pndec{\pntxta.}}
+\li720\sb100\sa100 Copy code \par
+
+\pard 
+{\pntext\f1 23.\tab}{\*\pn\pnlvlbody\pnf1\pnindent0\pnstart1\pndec{\pntxta.}}
+\li720\tx959\tx1918\tx2877\tx3836\tx4795\tx5754\tx6713\tx7672\tx8631\f1\fs20  $vNetSubnet1 = New-AzureRmVirtualNetworkSubnetConfig `\par
+{\pntext\f1 24.\tab}-Name $vNetSubnet1Name `\par
+{\pntext\f1 25.\tab}-AddressPrefix $vNetSubnet1Prefix `\par
+{\pntext\f1 26.\tab}-Verbose\par
+{\pntext\f1 27.\tab}\par
+{\pntext\f1 28.\tab} $vNetSubnet2 = New-AzureRmVirtualNetworkSubnetConfig `\par
+{\pntext\f1 29.\tab}-Name $vNetSubnet2Name `\par
+{\pntext\f1 30.\tab}-AddressPrefix $vNetSubnet2Prefix `\par
+{\pntext\f1 31.\tab}-Verbose\par
+
+\pard 
+{\pntext\f0 32.\tab}{\*\pn\pnlvlbody\pnf0\pnindent0\pnstart1\pndec{\pntxta.}}
+\li1080\ri1080\sb100\sa100\b\f0\fs24 Note:\b0  You have now defined variables for subnets that will be created at the same time the virtual network is being deployed.\par
+
+\pard 
+{\pntext\f0 33.\tab}{\*\pn\pnlvlbody\pnf0\pnindent360\pnstart1\pndec{\pntxta.}}
+\fi-360\li720\sb100\sa100 In the \b Create Virtual Network\b0  section of the \b Deploy-SimpleIaas.ps1 file\b0 , highlight the following seven lines and click \b Run selection\b0  {\pict{\*\picprop}\wmetafile8\picw7620\pich2540\picwgoal4320\pichgoal1440 
+0100090000035500000003001c00000000000400000003010600050000000c02ec09c41d070000
+00fc020000000000000000040000002d01000008000000fa020000000000000000000004000000
+2d0101001c000000fb020c00090000000000900100000000000202024d532053616e7320536572
+69660058ac6e01000014c0aff41b0000001700b000040000002d0102000900000021050500696d
+6167650083fdbc07030000000000
+}\par
+
+\pard 
+{\pntext\f0 34.\tab}{\*\pn\pnlvlbody\pnf0\pnindent0\pnstart1\pndec{\pntxta.}}
+\li720\sb100\sa100 Copy code \par
+
+\pard 
+{\pntext\f1 35.\tab}{\*\pn\pnlvlbody\pnf1\pnindent0\pnstart1\pndec{\pntxta.}}
+\li720\tx959\tx1918\tx2877\tx3836\tx4795\tx5754\tx6713\tx7672\tx8631\f1\fs20  $vNet = New-AzureRmVirtualNetwork `\par
+{\pntext\f1 36.\tab} \tab -ResourceGroupName $resourceGroup.ResourceGroupName `\par
+{\pntext\f1 37.\tab} \tab -Location $resourceGroup.Location `\par
+{\pntext\f1 38.\tab} \tab -Name $vNetName `\par
+{\pntext\f1 39.\tab} \tab -AddressPrefix $vNetAddressPrefix `\par
+{\pntext\f1 40.\tab} \tab -Subnet $vNetSubnet1,$vNetSubnet2 `\par
+{\pntext\f1 41.\tab} \tab -Verbose -Force\tab\par
+
+\pard 
+{\pntext\f0 42.\tab}{\*\pn\pnlvlbody\pnf0\pnindent0\pnstart1\pndec{\pntxta.}}
+\li1080\ri1080\sb100\sa100\b\f0\fs24 Note:\b0  Now that you have created a virtual network with subnets, you can verify the deployed resources in the Azure portal.\par
+
+\pard 
+{\pntext\f0 43.\tab}{\*\pn\pnlvlbody\pnf0\pnindent360\pnstart1\pndec{\pntxta.}}
+\fi-360\li720\sb100\sa100 Go to the \b Azure portal\b0\par
+{\pntext\f0 44.\tab}In the \b Favorites menu\b0  on the left, click \b Virtual Networks\b0\par
+{\pntext\f0 45.\tab}Click the \b contosonet\b0  virtual network to view its configuration\par
+{\pntext\f0 46.\tab}Go to the \b PowerShell\b0  window\par
+{\pntext\f0 47.\tab}In the \b Define Deployment Variables\b0  section of the \b Deploy-SimpleIaas.ps1 file\b0  file, highlight the following four lines and click \b Run selection\b0  {\pict{\*\picprop}\wmetafile8\picw7620\pich2540\picwgoal4320\pichgoal1440 
+0100090000035500000003001c00000000000400000003010600050000000c02ec09c41d070000
+00fc020000000000000000040000002d01000008000000fa020000000000000000000004000000
+2d0101001c000000fb020c00090000000000900100000000000202024d532053616e7320536572
+69660058ac6e01000014c0aff41b0000001700b000040000002d0102000900000021050500696d
+6167650083fdbc07030000000000
+}\par
+
+\pard 
+{\pntext\f0 48.\tab}{\*\pn\pnlvlbody\pnf0\pnindent0\pnstart1\pndec{\pntxta.}}
+\li720\sb100\sa100 Copy code \par
+
+\pard 
+{\pntext\f1 49.\tab}{\*\pn\pnlvlbody\pnf1\pnindent0\pnstart1\pndec{\pntxta.}}
+\li720\tx959\tx1918\tx2877\tx3836\tx4795\tx5754\tx6713\tx7672\tx8631\f1\fs20  $randomString = ([char[]]([char]'a'..[char]'z') + 0..9 | Sort-Object \{Get-Random\})[0..8] -join ''\par
+{\pntext\f1 50.\tab} $storageAccountNamePrefix = 'storage'\par
+{\pntext\f1 51.\tab} $storageAccountType = 'Standard_LRS'\par
+{\pntext\f1 52.\tab} $storageAccountName = $storageAccountNamePrefix + ($storageAccountType.Replace('Standard_','')).ToLower() + $randomString\par
+
+\pard 
+{\pntext\f0 53.\tab}{\*\pn\pnlvlbody\pnf0\pnindent0\pnstart1\pndec{\pntxta.}}
+\li1080\ri1080\sb100\sa100\b\f0\fs24 Note:\b0  You have now defined variables for the storage accounts that will be created.\par
+
+\pard 
+{\pntext\f0 54.\tab}{\*\pn\pnlvlbody\pnf0\pnindent360\pnstart1\pndec{\pntxta.}}
+\fi-360\li720\sb100\sa100 In the \b Create Storage Account\b0  section of the \b Deploy-SimpleIaas.ps1 file\b0  file, highlight the following six lines and click \b Run selection\b0  {\pict{\*\picprop}\wmetafile8\picw7620\pich2540\picwgoal4320\pichgoal1440 
+0100090000035500000003001c00000000000400000003010600050000000c02ec09c41d070000
+00fc020000000000000000040000002d01000008000000fa020000000000000000000004000000
+2d0101001c000000fb020c00090000000000900100000000000202024d532053616e7320536572
+69660058ac6e01000014c0aff41b0000001700b000040000002d0102000900000021050500696d
+6167650083fdbc07030000000000
+}\par
+
+\pard 
+{\pntext\f0 55.\tab}{\*\pn\pnlvlbody\pnf0\pnindent0\pnstart1\pndec{\pntxta.}}
+\li720\sb100\sa100 Copy code \par
+
+\pard 
+{\pntext\f1 56.\tab}{\*\pn\pnlvlbody\pnf1\pnindent0\pnstart1\pndec{\pntxta.}}
+\li720\tx959\tx1918\tx2877\tx3836\tx4795\tx5754\tx6713\tx7672\tx8631\f1\fs20  $storageAccount = New-AzureRmStorageAccount `\par
+{\pntext\f1 57.\tab}-ResourceGroupName $resourceGroup.ResourceGroupName `\par
+{\pntext\f1 58.\tab}-Location $resourceGroup.Location `\par
+{\pntext\f1 59.\tab}-Name $storageAccountName `\par
+{\pntext\f1 60.\tab}-Type $storageAccountType `\par
+{\pntext\f1 61.\tab}-Verbose\par
+
+\pard 
+{\pntext\f0 62.\tab}{\*\pn\pnlvlbody\pnf0\pnindent0\pnstart1\pndec{\pntxta.}}
+\li1080\ri1080\sb100\sa100\b\f0\fs24 Note:\b0  Now that you have created a storage account, you can verify the deployed resources in the Azure portal.\par
+
+\pard 
+{\pntext\f0 63.\tab}{\*\pn\pnlvlbody\pnf0\pnindent360\pnstart1\pndec{\pntxta.}}
+\fi-360\li720\sb100\sa100 After the \b Run selection\b0  command executes, go to the \b Azure portal\b0\par
+{\pntext\f0 64.\tab}In the \b Favorites menu\b0  on the left, click \b Storage Accounts\b0\par
+{\pntext\f0 65.\tab}Click the \b storage account that begins with 'storage'\b0  to view the account you just created and its configuration\par
+
+\pard\keepn\sb100\sa100\b\fs36 Conclusion\par
+
+\pard\sb100\sa100\b0\fs24 In this lab, you explored the core structure of an ARM architecture including resources and their interdependencies. You also deployed two simple ARM templates - a PaaS and an IaaS solution - using PowerShell.\par
+
+\pard\sa200\sl276\slmult1\f2\fs22\lang9\par
+}
+ 
