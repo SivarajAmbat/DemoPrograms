@@ -1,0 +1,248 @@
+{\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\froman\fcharset0 Times New Roman;}{\f1\fnil\fcharset0 Calibri;}{\f2\froman Times New Roman;}{\f3\fnil\fcharset2 Symbol;}}
+{\colortbl ;\red0\green0\blue255;}
+{\*\generator Riched20 10.0.14393}\viewkind4\uc1 
+\pard\sb100\sa100\f0\fs24 Azure Networking Concepts \par
+
+\pard\keepn\sb100\sa100\b\fs36 Networking Concepts\par
+
+\pard\sb100\sa100\b0\i\fs24 Explore and deploy Azure networking resources.\i0\par
+
+\pard\keepn\sb100\sa100\b\fs28 Overview\par
+
+\pard\sb100\sa100\b0\fs24 Microsoft Azure is a multi-tenant, public cloud computing platform. It is designed for building, deploying, and managing applications and services through a global network of Microsoft-managed datacenters. It provides SaaS (Software as a Service), PaaS (Platform as a Service), and IaaS (Infrastructure as a Service) and supports many different programming languages, tools, and frameworks, including both Microsoft and third-party software and systems.\par
+In this lab, we will be focusing on virtual networking concepts in Azure.\par
+\b Capabilities or components used in this scenario:\b0\par
+
+\pard{\pntext\f3\'B7\tab}{\*\pn\pnlvlblt\pnf3\pnindent360{\pntxtb\'B7}}\fi-360\li720\sb100\sa100\b Azure:\b0  Azure Resource Manager (ARM), Azure virtual networking, network security groups, load balancers\par
+
+\pard\sa200\sl276\slmult1\f1\fs22\lang9\par
+
+\pard\keepn\sb100\sa100\b\f0\fs36\lang1033 Scenario 1 - Building a Virtual Network\par
+
+\pard\sb100\sa100\b0\fs24 An \b Azure Virtual Network (VNet)\b0  is a logical extension of your physical network topology in the cloud, dedicated and isolated to your Azure subscription. You can fully control the IP address blocks, DNS settings, security policies, and route tables within this network. Click the following link to learn more about Azure VNets: {{\field{\*\fldinst{HYPERLINK "https://docs.microsoft.com/en-us/azure/virtual-network/virtual-networks-overview"}}{\fldrslt{\ul\cf1\cf1\ul Learn more.}}}}\f0\fs24\par
+\b Sign in to the Azure portal\b0\par
+
+\pard 
+{\pntext\f0 1.\tab}{\*\pn\pnlvlbody\pnf0\pnindent360\pnstart1\pndec{\pntxta.}}
+\fi-360\li720\sb100\sa100 {{\field{\*\fldinst{HYPERLINK "https://portal.azure.com/"}}{\fldrslt{\ul\cf1\cf1\ul Click here to open the Azure portal}}}}\f0\fs24  and maximize the browser window\par
+{\pntext\f0 2.\tab}In the \b Email or phone\b0  field, enter \b user749351@cloudplatimmersionlabs.onmicrosoft.com\b0\par
+{\pntext\f0 3.\tab}Click \b Next\b0\par
+{\pntext\f0 4.\tab}In the \b Password\b0  field, enter \b U%[lty1D1gY^\b0\par
+{\pntext\f0 5.\tab}Click \b Sign in\b0\par
+{\pntext\f0 6.\tab}You \i may\i0  encounter a popup entitled \b Stay signed in?\b0  with buttons for \b No\b0  and \b Yes\b0  - Choose \b No\b0\par
+{\pntext\f0 7.\tab}You \i may\i0  encounter a popup entitled \b Welcome to Microsoft Azure\b0  with buttons for \b Start Tour\b0  and \b Maybe Later\b0  - Choose \b Maybe Later\b0\par
+{\pntext\f0 8.\tab}Click the \b +New\b0  button\par
+{\pntext\f0 9.\tab}On the \b New\b0  blade, click \b Networking\b0  in the \b Azure Marketplace\b0  menu\par
+{\pntext\f0 10.\tab}In the \b Featured\b0  menu, select the \b Virtual network\b0  app\par
+{\pntext\f0 11.\tab}On the \b Create virtual network\b0  blade, type \b DemoLabVnet1\b0  in the \b Name\b0  field\par
+{\pntext\f0 12.\tab}In the \b Address space\b0  field, change the address space from \b /24\b0  to \b /16\b0\par
+
+\pard 
+{\pntext\f0 13.\tab}{\*\pn\pnlvlbody\pnf0\pnindent0\pnstart1\pndec{\pntxta.}}
+\li1080\ri1080\sb100\sa100\b Note:\b0  This will change the total number of available IP addresses from \b 256\b0  to \b 65,536\b0\par
+
+\pard 
+{\pntext\f0 14.\tab}{\*\pn\pnlvlbody\pnf0\pnindent360\pnstart1\pndec{\pntxta.}}
+\fi-360\li720\sb100\sa100 In the \b Subscription\b0  dropdown menu, verify that a valid subscription is listed\par
+{\pntext\f0 15.\tab}In the \b Resource group\b0  field, change the radio button to \b Use existing\b0  and select the \b rg749351\b0  resource group from the drop-down\par
+{\pntext\f0 16.\tab}In the \b Location\b0  field, change the location to \b West Central US\b0\par
+{\pntext\f0 17.\tab}In the \b Subnet name\b0  field, leave \b default\b0  in the name field\par
+{\pntext\f0 18.\tab}In the \b Subnet address range\b0  field, leave the \b /24\b0  default setting\par
+{\pntext\f0 19.\tab}Click the \b Create\b0  button to deploy the \b Virtual network\b0\par
+
+\pard\keepn\sb100\sa100\b\fs28 Advanced configuration steps\par
+
+\pard\sb100\sa100\b0\fs24 In these optional steps, you will create additional subnets to demonstrate building multiple subnets for network segmentation in a virtual network.\par
+
+\pard 
+{\pntext\f0 1.\tab}{\*\pn\pnlvlbody\pnf0\pnindent360\pnstart1\pndec{\pntxta.}}
+\fi-360\li720\sb100\sa100 On the \b Dashboard\b0  page, click \b Virtual networks\b0  in the menu on the left side (referred to as the \b Favorites\b0  menu)\par
+{\pntext\f0 2.\tab}On the \b Virtual networks\b0  blade, click \b DemoLabVnet1\b0  that was deployed in Scenario 1\par
+{\pntext\f0 3.\tab}In the \b SETTINGS\b0  section of the \b DemoLabVnet1\b0  blade, click the \b Subnets\b0  field\par
+{\pntext\f0 4.\tab}Click the \b +Subnet\b0  button to display the \b Add subnet\b0  blade\par
+{\pntext\f0 5.\tab}In the \b Name\b0  field, type \b Production\b0\par
+{\pntext\f0 6.\tab}Verify that the following address range has been created: \b 10.1.1.0/24\b0\par
+{\pntext\f0 7.\tab}Verify that \b None\b0  is selected for \b Network security group\b0\par
+{\pntext\f0 8.\tab}Verify that \b None\b0  is selected for \b Route table\b0\par
+{\pntext\f0 9.\tab}Click the \b OK\b0  button\par
+{\pntext\f0 10.\tab}Verify that \b Production\b0  is now listed in the \b Subnet\b0  list\par
+{\pntext\f0 11.\tab}Click the \b +Subnet\b0  button to display the \b Add subnet\b0  blade\par
+{\pntext\f0 12.\tab}In the \b Name\b0  field, type \b Dev\b0\par
+{\pntext\f0 13.\tab}Verify that the following address range has been created: \b 10.1.2.0/24\b0\par
+{\pntext\f0 14.\tab}Verify that \b None\b0  is selected for \b Network security group\b0\par
+{\pntext\f0 15.\tab}Verify that \b None\b0  is selected for \b Route table\b0\par
+{\pntext\f0 16.\tab}Click the \b OK\b0  button\par
+{\pntext\f0 17.\tab}Verify that \b Dev\b0  is now listed in the \b Subnet\b0  list\par
+
+\pard 
+{\pntext\f0 18.\tab}{\*\pn\pnlvlbody\pnf0\pnindent0\pnstart1\pndec{\pntxta.}}
+\li1080\ri1080\sb100\sa100 You have completed this scenario. Click \b Next\b0  to go to the next scenario.\par
+
+\pard\keepn\sb100\sa100\b\fs36 Scenario 2 - Building network security groups\par
+
+\pard\sb100\sa100\b0\fs24 An Azure \b Network Security Group (NSG)\b0  lets you create \b access control lists (ACLs)\b0  to \b block\b0  or \b allow\b0  traffic on your subnets or individual virtual machines. To learn more about Azure NSGs, click the following link: {{\field{\*\fldinst{HYPERLINK "https://docs.microsoft.com/en-us/azure/virtual-network/virtual-networks-nsg"}}{\fldrslt{\ul\cf1\cf1\ul Learn more.}}}}\f0\fs24\par
+
+\pard 
+{\pntext\f0 1.\tab}{\*\pn\pnlvlbody\pnf0\pnindent360\pnstart1\pndec{\pntxta.}}
+\fi-360\li720\sb100\sa100 Click the \b +New\b0  button\par
+{\pntext\f0 2.\tab}On the \b New\b0  blade, type \b network security group\b0  in the \b Search the marketplace\b0  field and press \b Enter\b0\par
+{\pntext\f0 3.\tab}On the \b Everything\b0  blade, click \b Network security group\b0  in the \b Results\b0  list\par
+{\pntext\f0 4.\tab}On the \b Network security group\b0  blade, leave the \b Select a deployment model\b0  option set to \b Resource Manager\b0  in the dropdown menu and click the \b Create\b0  button\par
+{\pntext\f0 5.\tab}On the \b Create network security group\b0  blade, type \b prodNSG\b0  in the \b Name\b0  field\par
+{\pntext\f0 6.\tab}In the \b Subscription\b0  dropdown menu, verify that a valid subscription is listed\par
+{\pntext\f0 7.\tab}In the \b Resource group\b0  field, change the radio button to \b Use existing\b0  and select the \b rg749351\b0  resource group from the drop-down\par
+{\pntext\f0 8.\tab}In the \b Location\b0  field, select \b West Central US\b0\par
+{\pntext\f0 9.\tab}Click the \b Create\b0  button\par
+
+\pard\keepn\sb100\sa100\b\fs36 Advanced configuration steps\par
+
+\pard\sb100\sa100\b0\fs24 In these optional steps, you will modify the newly created \b prodNSG\b0  network security group to allow TCP port 80 for web server traffic, and apply/associate the NSG to the \b DemoLabVnet1\b0  virtual network that was created in Scenario 1.\par
+
+\pard 
+{\pntext\f0 1.\tab}{\*\pn\pnlvlbody\pnf0\pnindent360\pnstart1\pndec{\pntxta.}}
+\fi-360\li720\sb100\sa100 On the \b Dashboard\b0  page, click \b More services >\b0  at the bottom of the \b Favorites\b0  menu\par
+{\pntext\f0 2.\tab}In the \b Filter\b0  search box on the next blade, type \b Network security groups\b0  and press \b Enter\b0\par
+{\pntext\f0 3.\tab}On the \b Network security groups\b0  blade, click \b prodNSG\b0  in the list of NSGs\par
+{\pntext\f0 4.\tab}In the \b SETTINGS\b0  section of the \b prodNSG\b0  blade, click \b Inbound security rules\b0\par
+{\pntext\f0 5.\tab}Click the \b +Add\b0  button\par
+{\pntext\f0 6.\tab}In the \b Action\b0  field, choose \b Allow\b0\par
+{\pntext\f0 7.\tab}Verify the following default values are set: \b Priority \f2\endash\f0  100\b0  and \b Source \f2\endash\f0  Any\b0\par
+{\pntext\f0 8.\tab}In the \b Name\b0  field, type \b Webserver\b0\par
+{\pntext\f0 9.\tab}Click on \b Basic\b0\par
+{\pntext\f0 10.\tab}In the \b Service\b0  dropdown menu, select \b HTTP\b0\par
+
+\pard 
+{\pntext\f0 11.\tab}{\*\pn\pnlvlbody\pnf0\pnindent0\pnstart1\pndec{\pntxta.}}
+\li1080\ri1080\sb100\sa100\b Note:\b0  This will automatically configure the following settings: Protocol \f2\endash\f0  TCP, Port Range \f2\endash\f0  80\par
+
+\pard 
+{\pntext\f0 12.\tab}{\*\pn\pnlvlbody\pnf0\pnindent360\pnstart1\pndec{\pntxta.}}
+\fi-360\li720\sb100\sa100 Click on \b Advanced\b0\par
+{\pntext\f0 13.\tab}Click \b OK\b0  to apply your changes\par
+{\pntext\f0 14.\tab}To verify the new rule has been created and is active, click the \b Overview\b0  link in the top left of the \b prodNSG\b0  network security group blade\par
+
+\pard 
+{\pntext\f0 15.\tab}{\*\pn\pnlvlbody\pnf0\pnindent0\pnstart1\pndec{\pntxta.}}
+\li1080\ri1080\sb100\sa100\b Note:\b0  The \b Webserver\b0  rule should now be listed under \b Inbound security rule\b0\par
+
+\pard 
+{\pntext\f0 16.\tab}{\*\pn\pnlvlbody\pnf0\pnindent360\pnstart1\pndec{\pntxta.}}
+\fi-360\li720\sb100\sa100 In the \b SETTINGS\b0  section of the \b prodNSG\b0  blade, click the \b Subnets\b0  link\par
+{\pntext\f0 17.\tab}Click the \b +Associate\b0  button to launch the \b Associate subnet\b0  blade\par
+{\pntext\f0 18.\tab}Click the \b Virtual network\b0  step to display a list of virtual networks\par
+{\pntext\f0 19.\tab}Click \b DemoLabVnet1\b0  to select the virtual network\par
+{\pntext\f0 20.\tab}Click the \b Production\b0  to select the subnet\par
+{\pntext\f0 21.\tab}Click the \b OK\b0  button\par
+
+\pard 
+{\pntext\f0 22.\tab}{\*\pn\pnlvlbody\pnf0\pnindent0\pnstart1\pndec{\pntxta.}}
+\li1080\ri1080\sb100\sa100 You have completed this scenario. Click \b Next\b0  to go to the next scenario.\par
+
+\pard\keepn\sb100\sa100\kerning36\b\fs48 Scenario 3 - Building a load balancer\par
+
+\pard\sb100\sa100\kerning0\b0\fs24 Azure load balancer is a Layer 4 load balancer that distributes incoming traffic across healthy virtual machine instances using a hash-based distribution algorithm. By default, Azure load balancers use a quintuple (source IP, source port, destination IP, destination port, protocol type) hash to distribute traffic across available servers. Load balancers can either be Internet-facing (accessible via public IP addresses) or internal (only accessible from a virtual network). Azure load balancers also support network address translation (NAT) to route traffic between public and private IP addresses.\par
+
+\pard 
+{\pntext\f0 1.\tab}{\*\pn\pnlvlbody\pnf0\pnindent360\pnstart1\pndec{\pntxta.}}
+\fi-360\li720\sb100\sa100 Click the \b +New\b0  button\par
+{\pntext\f0 2.\tab}On the \b New\b0  blade, type \b load balancer\b0  in the \b Search the marketplace\b0  field and press \b Enter\b0\par
+{\pntext\f0 3.\tab}On the \b Everything\b0  blade, click \b Load Balancer\b0  in the \b Results\b0  list\par
+{\pntext\f0 4.\tab}On the \b Load balancer\b0  blade, click the \b Create\b0  button\par
+{\pntext\f0 5.\tab}On the \b Create load balancer\b0  blade, type \b DemoLabLB1\b0  in the \b Name\b0  field\par
+{\pntext\f0 6.\tab}Click the \b Internal\b0  radio button in the \b Type\b0  field to select it\par
+
+\pard 
+{\pntext\f0 7.\tab}{\*\pn\pnlvlbody\pnf0\pnindent0\pnstart1\pndec{\pntxta.}}
+\li1080\ri1080\sb100\sa100\b Note:\b0  You can use internal load balancers to balance traffic from private IP addresses. Public load balancers can balance traffic originating from public IP addresses. Click these links to learn more about each type: {{\field{\*\fldinst{HYPERLINK "https://docs.microsoft.com/en-us/azure/load-balancer/load-balancer-internal-overview"}}{\fldrslt{\ul\cf1\cf1\ul Internal}}}}\f0\fs24 , {{\field{\*\fldinst{HYPERLINK "https://docs.microsoft.com/en-us/azure/load-balancer/load-balancer-internet-overview"}}{\fldrslt{\ul\cf1\cf1\ul Public}}}}\f0\fs24\par
+
+\pard 
+{\pntext\f0 8.\tab}{\*\pn\pnlvlbody\pnf0\pnindent360\pnstart1\pndec{\pntxta.}}
+\fi-360\li720\sb100\sa100 Click the \b Virtual network\b0  field and select \b DemoLabVnet1\b0\par
+{\pntext\f0 9.\tab}Click the \b Subnet\b0  field and select \b Production\b0\par
+{\pntext\f0 10.\tab}In the \b IP address assignment\b0  section, verify that \b Dynamic\b0  is selected\par
+{\pntext\f0 11.\tab}In the \b Subscription\b0  dropdown menu, verify that a valid subscription is listed\par
+{\pntext\f0 12.\tab}In the \b Resource group\b0  field, change the radio button to \b Use existing\b0  and select the \b rg749351\b0  resource group from the drop-down\par
+{\pntext\f0 13.\tab}In the \b Location\b0  field, verify that \b West Central US\b0  is selected\par
+{\pntext\f0 14.\tab}Click the \b Create\b0  button to deploy the load balancer\par
+
+\pard 
+{\pntext\f0 15.\tab}{\*\pn\pnlvlbody\pnf0\pnindent0\pnstart1\pndec{\pntxta.}}
+\li1080\ri1080\sb100\sa100 You have completed this scenario. Click \b Next\b0  to go to the next scenario.\par
+
+\pard\keepn\sb100\sa100\b\fs36 Scenario 4 - Creating a Virtual Network Gateway\par
+
+\pard\sb100\sa100\b0\fs24 A VPN gateway is a type of virtual network gateway that sends encrypted traffic between your virtual network and your on-premises location across a public connection. You can also use a VPN gateway to send traffic between virtual networks across the Azure backbone.\par
+
+\pard 
+{\pntext\f0 1.\tab}{\*\pn\pnlvlbody\pnf0\pnindent360\pnstart1\pndec{\pntxta.}}
+\fi-360\li720\sb100\sa100 Click the \b +New\b0  button\par
+{\pntext\f0 2.\tab}On the \b New\b0  blade, type \b virtual network gateway\b0  in the \b Search the marketplace\b0  field and press \b Enter\b0\par
+{\pntext\f0 3.\tab}On the \b Everything\b0  blade, click \b Virtual network gateway\b0  in the \b Results\b0  list\par
+{\pntext\f0 4.\tab}On the \b Virtual network gateway\b0  blade, click the \b Create\b0  button\par
+{\pntext\f0 5.\tab}On the \b Create virtual network gateway\b0  blade, type \b DemoVNetGW1\b0  in the \b Name\b0  field\par
+{\pntext\f0 6.\tab}Verify that \b VPN\b0  is selected in the \b Gateway type\b0  field\par
+
+\pard 
+{\pntext\f0 7.\tab}{\*\pn\pnlvlbody\pnf0\pnindent0\pnstart1\pndec{\pntxta.}}
+\li1080\ri1080\sb100\sa100\b Note:\b0  Click the following link to learn more about the different types of gateways: {{\field{\*\fldinst{HYPERLINK "https://docs.microsoft.com/en-us/azure/vpn-gateway/vpn-gateway-plan-design"}}{\fldrslt{\ul\cf1\cf1\ul Learn more}}}}\f0\fs24\par
+
+\pard 
+{\pntext\f0 8.\tab}{\*\pn\pnlvlbody\pnf0\pnindent360\pnstart1\pndec{\pntxta.}}
+\fi-360\li720\sb100\sa100 Verify that the \b Route-based VPN\b0  type is selected\par
+
+\pard 
+{\pntext\f0 9.\tab}{\*\pn\pnlvlbody\pnf0\pnindent0\pnstart1\pndec{\pntxta.}}
+\li1080\ri1080\sb100\sa100\b Note:\b0  The type of VPN you can choose depends on your VPN device and the kind of VPN connection you intend to create. Point-to-site, inter-virtual network, and multiple site-to-site VPN connections are only supported with a route-based virtual network gateway. In addition, if you are creating a VPN-type gateway to coexist with an ExpressRoute gateway, the VPN gateway must be route-based and the ExpressRoute gateway must be created first. Click the following link to learn more: {{\field{\*\fldinst{HYPERLINK "https://docs.microsoft.com/en-us/azure/vpn-gateway/vpn-gateway-plan-design"}}{\fldrslt{\ul\cf1\cf1\ul Learn more.}}}}\f0\fs24\par
+
+\pard 
+{\pntext\f0 10.\tab}{\*\pn\pnlvlbody\pnf0\pnindent360\pnstart1\pndec{\pntxta.}}
+\fi-360\li720\sb100\sa100 In the \b SKU\b0  field, verify that \b Standard\b0  is the selected type\par
+
+\pard 
+{\pntext\f0 11.\tab}{\*\pn\pnlvlbody\pnf0\pnindent0\pnstart1\pndec{\pntxta.}}
+\li1080\ri1080\sb100\sa100\b Note:\b0  Route-based VPN gateway types are offered in three SKUs: Basic, Standard, and High Performance. Standard or High Performance must be chosen if the gateway is being created to coexist with an ExpressRoute gateway. Click the following link to learn more: {{\field{\*\fldinst{HYPERLINK "https://docs.microsoft.com/en-us/azure/vpn-gateway/vpn-gateway-about-vpngateways"}}{\fldrslt{\ul\cf1\cf1\ul Learn more.}}}}\f0\fs24\par
+
+\pard 
+{\pntext\f0 12.\tab}{\*\pn\pnlvlbody\pnf0\pnindent360\pnstart1\pndec{\pntxta.}}
+\fi-360\li720\sb100\sa100 Click \b Choose a virtual network\b0  in the \b Virtual network\b0  section to display the \b Choose virtual network\b0  blade\par
+{\pntext\f0 13.\tab}Click the \b DemoLabVnet1\b0  virtual network\par
+{\pntext\f0 14.\tab}Verify that the following default \b Gateway\b0  subnet address range has been auto-selected: \b 10.1.3.0/24\b0\par
+
+\pard 
+{\pntext\f0 15.\tab}{\*\pn\pnlvlbody\pnf0\pnindent0\pnstart1\pndec{\pntxta.}}
+\li1080\ri1080\sb100\sa100\b Note:\b0  This should be the next subnet available based on subnets already in use.\par
+
+\pard 
+{\pntext\f0 16.\tab}{\*\pn\pnlvlbody\pnf0\pnindent360\pnstart1\pndec{\pntxta.}}
+\fi-360\li720\sb100\sa100 Click \b Choose a public IP address\b0  in the \b Public IP address\b0  section to display the \b Choose public IP address\b0  section\par
+{\pntext\f0 17.\tab}Click \b +Create new\b0  to display the \b Create public IP address\b0  blade\par
+{\pntext\f0 18.\tab}Type \b DemoVNetGW1-pip\b0  in the \b Name\b0  field\par
+
+\pard 
+{\pntext\f0 19.\tab}{\*\pn\pnlvlbody\pnf0\pnindent0\pnstart1\pndec{\pntxta.}}
+\li1080\ri1080\sb100\sa100\b Note:\b0  This naming convention identifies the resource being created as a public IP address by ending the name with "-pip".\par
+
+\pard 
+{\pntext\f0 20.\tab}{\*\pn\pnlvlbody\pnf0\pnindent360\pnstart1\pndec{\pntxta.}}
+\fi-360\li720\sb100\sa100 Click the \b OK\b0  button\par
+{\pntext\f0 21.\tab}Verify that the \b (new) DemoVNetGW1-pip\b0  name is displayed in the \b Public IP address\b0  section\par
+{\pntext\f0 22.\tab}In the \b Subscription\b0  dropdown menu, verify that a valid subscription is listed\par
+{\pntext\f0 23.\tab}In the \b Location\b0  field, verify that \b West Central US\b0  is selected\par
+{\pntext\f0 24.\tab}Click the \b Create\b0  button\par
+
+\pard 
+{\pntext\f0 25.\tab}{\*\pn\pnlvlbody\pnf0\pnindent0\pnstart1\pndec{\pntxta.}}
+\li1080\ri1080\sb100\sa100\b Note:\b0  This configuration can take up to 45 minutes to complete. Therefore you will NOT be completing the deployment in this lab scenario. Click the \b Conclusion\b0  button to complete this lab.\par
+
+\pard\sb100\sa100 The \b Azure Networking Concepts\b0  lab has now been completed. The following networking elements have been reviewed and deployed:\par
+
+\pard{\pntext\f3\'B7\tab}{\*\pn\pnlvlblt\pnf3\pnindent360{\pntxtb\'B7}}\fi-360\li720\sb100\sa100 Virtual networks \par
+{\pntext\f3\'B7\tab}Additional subnets \par
+{\pntext\f3\'B7\tab}Network security groups \par
+{\pntext\f3\'B7\tab}Access control lists \par
+{\pntext\f3\'B7\tab}Load balancers \par
+{\pntext\f3\'B7\tab}Virtual network gateways\par
+
+\pard\sa200\sl276\slmult1\f1\fs22\lang9\par
+}
+ 
